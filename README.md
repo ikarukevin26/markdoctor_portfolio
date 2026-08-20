@@ -1,2 +1,2 @@
-# markdoctor_porfolio
-Mark Kevin Doctors Porfolio
+# markdoctor_portfolio
+Mark Kevin Doctors Portfolio
