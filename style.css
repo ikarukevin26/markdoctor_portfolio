@@ -284,27 +284,27 @@ input, select, textarea { font-family: inherit; }
 }
 .avatar-wrap {
   position: relative;
-  width: 84px;
-  height: 84px;
-  margin-bottom: 22px;
+  width: 140px;
+  height: 140px;
+  margin-bottom: 24px;
 }
 .avatar {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
-  border: 2px solid var(--border);
+  border: 3px solid var(--border);
   display: block;
 }
 .avatar-status {
   position: absolute;
-  bottom: 2px;
-  right: 2px;
-  width: 16px;
-  height: 16px;
+  bottom: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: var(--green);
-  border: 3px solid var(--bg);
+  border: 4px solid var(--bg);
   color: var(--green);
 }
 .hero-title {
