@@ -102,27 +102,50 @@ function initReveal() {
 }
 
 // =========================================================
-// Ticket form (static site — opens the visitor's email client)
+// Ticket form — submits directly to Formspree (no email client)
 // =========================================================
 function initTicketForm() {
   const form = document.getElementById('ticketForm');
   const status = document.getElementById('formStatus');
   if (!form || !status) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const subject = document.getElementById('subject').value;
-    const message = document.getElementById('message').value.trim();
+    const endpoint = form.getAttribute('action');
+    const isConfigured = endpoint && !endpoint.includes('YOUR_FORM_ID');
 
-    const mailto = `mailto:ikarukevin26@gmail.com` +
-      `?subject=${encodeURIComponent('[Portfolio] ' + subject + ' — ' + name)}` +
-      `&body=${encodeURIComponent(message + '\n\nFrom: ' + name + ' (' + email + ')')}`;
+    if (!isConfigured) {
+      status.textContent = 'Form isn\'t connected yet — see setup notes in script.js.';
+      status.style.color = 'var(--amber)';
+      return;
+    }
 
-    window.location.href = mailto;
-    status.textContent = 'Opening your email client to send this ticket...';
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    status.style.color = 'var(--text-muted)';
+    status.textContent = 'Submitting ticket...';
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form),
+      });
+
+      if (response.ok) {
+        status.style.color = 'var(--green)';
+        status.textContent = 'Ticket submitted — I\'ll get back to you shortly.';
+        form.reset();
+      } else {
+        throw new Error('Submission failed');
+      }
+    } catch (err) {
+      status.style.color = 'var(--red)';
+      status.textContent = 'Something went wrong. Please email ikarukevin26@gmail.com directly.';
+    } finally {
+      submitBtn.disabled = false;
+    }
   });
 }
 
