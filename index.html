@@ -1,20 +1,353 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Mark's Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mark Kevin Doctor — Software Engineer &amp; Technical Support Specialist</title>
+<meta name="description" content="Portfolio of Mark Kevin Doctor — Software Engineering, Web Development, IT Helpdesk, Shopify, and AI Automation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <h1>Hi, I'm Mark</h1>
-    <p>Software Engineer | Technical Support | AI Automation</p>
+<div class="scanline" aria-hidden="true"></div>
 
-    <h2>About Me</h2>
-    <p>
-        I specialize in technical support, software development,
-        website development, and AI automation.
-    </p>
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-brand">
+      <span class="dot dot-green"></span>
+      <span class="brand-text">mkd<span class="brand-muted">@</span>portfolio<span class="brand-muted">:~$</span></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#about">about</a>
+      <a href="#skills">skills</a>
+      <a href="#experience">log</a>
+      <a href="#projects">projects</a>
+      <a href="#contact">contact</a>
+    </nav>
+    <a href="#contact" class="nav-cta">open a ticket</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
 
+<!-- ============ HERO ============ -->
+<main id="top">
+<section class="hero">
+  <div class="hero-inner">
+    <div class="window boot-window">
+      <div class="window-bar">
+        <span class="win-dot win-red"></span>
+        <span class="win-dot win-amber"></span>
+        <span class="win-dot win-green"></span>
+        <span class="window-title">status.sh — running diagnostics</span>
+      </div>
+      <div class="window-body">
+        <pre class="boot-log" id="bootLog" aria-live="polite"></pre>
+      </div>
+    </div>
+
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="dot dot-green pulse"></span> all systems operational</p>
+      <h1 class="hero-title">Mark Kevin Doctor</h1>
+      <p class="hero-role">Software Engineer &amp; Technical&nbsp;Support Specialist</p>
+      <p class="hero-desc">
+        I build software, fix what's broken, and automate what shouldn't be manual —
+        across web development, IT helpdesk, Shopify storefronts, and AI-driven workflows.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">View projects</a>
+        <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" class="section reveal">
+  <div class="section-inner">
+    <div class="window">
+      <div class="window-bar">
+        <span class="win-dot win-red"></span>
+        <span class="win-dot win-amber"></span>
+        <span class="win-dot win-green"></span>
+        <span class="window-title">about.md</span>
+      </div>
+      <div class="window-body about-body">
+        <span class="section-label">01 / about</span>
+        <p class="about-text">
+          I'm a software engineer and technical support specialist who's equally comfortable
+          debugging a production issue, writing customer-facing documentation, or building an
+          automation that saves a team hours every week. My background spans full-stack web
+          development, frontline IT helpdesk support, Shopify store builds, and AI-powered
+          automation tooling — which means I tend to see problems end-to-end, not just from
+          one side of the ticket queue.
+        </p>
+        <p class="about-text">
+          I like systems that are reliable, documentation that's actually useful, and tools
+          that quietly remove friction instead of adding more of it. Currently open to roles
+          and projects across software engineering, web development, technical support, and
+          automation.
+        </p>
+        <div class="about-meta">
+          <div class="meta-row"><span class="meta-key">location</span><span class="meta-val">Philippines</span></div>
+          <div class="meta-row"><span class="meta-key">status</span><span class="meta-val"><span class="dot dot-green pulse"></span> open to opportunities</span></div>
+          <div class="meta-row"><span class="meta-key">focus</span><span class="meta-val">web dev · support · automation</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section id="skills" class="section reveal">
+  <div class="section-inner">
+    <span class="section-label">02 / skills</span>
+    <h2 class="section-title">Service registry</h2>
+    <p class="section-sub">Five domains I operate in, kept running in parallel.</p>
+
+    <div class="skills-grid">
+
+      <div class="skill-panel">
+        <div class="skill-head">
+          <span class="dot dot-green pulse"></span>
+          <h3>Software Engineering</h3>
+        </div>
+        <p class="skill-desc">Building and maintaining applications with clean, testable, maintainable code.</p>
+        <div class="tags">
+          <span class="tag">JavaScript</span>
+          <span class="tag">Python</span>
+          <span class="tag">Git &amp; GitHub</span>
+          <span class="tag">REST APIs</span>
+          <span class="tag">SQL</span>
+        </div>
+      </div>
+
+      <div class="skill-panel">
+        <div class="skill-head">
+          <span class="dot dot-cyan pulse"></span>
+          <h3>Web Development</h3>
+        </div>
+        <p class="skill-desc">Responsive, accessible sites and web apps from design handoff to deployment.</p>
+        <div class="tags">
+          <span class="tag">HTML / CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">React</span>
+          <span class="tag">Responsive Design</span>
+        </div>
+      </div>
+
+      <div class="skill-panel">
+        <div class="skill-head">
+          <span class="dot dot-amber pulse"></span>
+          <h3>IT Helpdesk &amp; Technical Support</h3>
+        </div>
+        <p class="skill-desc">Frontline troubleshooting, ticket resolution, and clear communication under pressure.</p>
+        <div class="tags">
+          <span class="tag">Ticketing Systems</span>
+          <span class="tag">Remote Support</span>
+          <span class="tag">Hardware/Software Troubleshooting</span>
+          <span class="tag">Documentation</span>
+        </div>
+      </div>
+
+      <div class="skill-panel">
+        <div class="skill-head">
+          <span class="dot dot-green pulse"></span>
+          <h3>Shopify</h3>
+        </div>
+        <p class="skill-desc">Storefront setup, theme customization, and app configuration for ecommerce clients.</p>
+        <div class="tags">
+          <span class="tag">Theme Customization</span>
+          <span class="tag">Liquid</span>
+          <span class="tag">Store Setup</span>
+          <span class="tag">App Integrations</span>
+        </div>
+      </div>
+
+      <div class="skill-panel skill-panel-wide">
+        <div class="skill-head">
+          <span class="dot dot-cyan pulse"></span>
+          <h3>AI Automation</h3>
+        </div>
+        <p class="skill-desc">Designing workflows that connect tools together and cut out repetitive manual work.</p>
+        <div class="tags">
+          <span class="tag">Workflow Automation</span>
+          <span class="tag">API Integrations</span>
+          <span class="tag">Prompt Engineering</span>
+          <span class="tag">Zapier / Make</span>
+          <span class="tag">Chatbots</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE / LOG ============ -->
+<section id="experience" class="section reveal">
+  <div class="section-inner">
+    <span class="section-label">03 / log</span>
+    <h2 class="section-title">Change log</h2>
+    <p class="section-sub">A running record — replace with your real roles and dates.</p>
+
+    <div class="log">
+
+      <div class="log-entry">
+        <div class="log-time">
+          <span class="log-tag log-tag-live">current</span>
+          <span class="log-date">2025 — present</span>
+        </div>
+        <div class="log-content">
+          <h3>Job Title — Company Name</h3>
+          <p>One or two lines on scope: what you own, who you support, and the impact
+             you've had. Mention tools and metrics where you can.</p>
+        </div>
+      </div>
+
+      <div class="log-entry">
+        <div class="log-time">
+          <span class="log-tag log-tag-done">resolved</span>
+          <span class="log-date">2023 — 2025</span>
+        </div>
+        <div class="log-content">
+          <h3>Job Title — Company Name</h3>
+          <p>Summary of responsibilities and a concrete result — tickets resolved,
+             uptime improved, a process you automated, a project you shipped.</p>
+        </div>
+      </div>
+
+      <div class="log-entry">
+        <div class="log-time">
+          <span class="log-tag log-tag-done">resolved</span>
+          <span class="log-date">2021 — 2023</span>
+        </div>
+        <div class="log-content">
+          <h3>Job Title — Company Name</h3>
+          <p>Summary of responsibilities and a concrete result. Keep each entry short —
+             one to two sentences reads better than a wall of text.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section id="projects" class="section reveal">
+  <div class="section-inner">
+    <span class="section-label">04 / projects</span>
+    <h2 class="section-title">Deployed builds</h2>
+    <p class="section-sub">Swap these for your real projects, screenshots, and links.</p>
+
+    <div class="projects-grid">
+
+      <article class="project-card">
+        <div class="project-status"><span class="dot dot-green pulse"></span> live</div>
+        <h3>Project Name</h3>
+        <p>Short description of the project — what it does, who it's for, and the
+           problem it solves.</p>
+        <div class="tags">
+          <span class="tag">React</span>
+          <span class="tag">Node.js</span>
+        </div>
+        <a href="#" class="project-link">View project →</a>
+      </article>
+
+      <article class="project-card">
+        <div class="project-status"><span class="dot dot-cyan pulse"></span> live</div>
+        <h3>Project Name</h3>
+        <p>Short description of the project — what it does, who it's for, and the
+           problem it solves.</p>
+        <div class="tags">
+          <span class="tag">Shopify</span>
+          <span class="tag">Liquid</span>
+        </div>
+        <a href="#" class="project-link">View project →</a>
+      </article>
+
+      <article class="project-card">
+        <div class="project-status"><span class="dot dot-amber pulse"></span> in progress</div>
+        <h3>Project Name</h3>
+        <p>Short description of the project — what it does, who it's for, and the
+           problem it solves.</p>
+        <div class="tags">
+          <span class="tag">Automation</span>
+          <span class="tag">API</span>
+        </div>
+        <a href="#" class="project-link">View project →</a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="section reveal">
+  <div class="section-inner">
+    <div class="window">
+      <div class="window-bar">
+        <span class="win-dot win-red"></span>
+        <span class="win-dot win-amber"></span>
+        <span class="win-dot win-green"></span>
+        <span class="window-title">new_ticket.sh</span>
+      </div>
+      <div class="window-body">
+        <span class="section-label">05 / contact</span>
+        <h2 class="section-title">Open a ticket</h2>
+        <p class="section-sub">Tell me what you need — I'll get back to you shortly.</p>
+
+        <form class="ticket-form" id="ticketForm">
+          <div class="form-row">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required placeholder="Your name">
+          </div>
+          <div class="form-row">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required placeholder="you@example.com">
+          </div>
+          <div class="form-row">
+            <label for="subject">Subject</label>
+            <select id="subject" name="subject">
+              <option>Software engineering</option>
+              <option>Web development</option>
+              <option>Technical support</option>
+              <option>Shopify</option>
+              <option>AI automation</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" required placeholder="Describe what you need..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit ticket</button>
+          <p class="form-status" id="formStatus" role="status"></p>
+        </form>
+
+        <div class="contact-links">
+          <a href="mailto:ikarukevin26@gmail.com">ikarukevin26@gmail.com</a>
+          <a href="https://github.com/ikarukevin26" target="_blank" rel="noopener">github.com/ikarukevin26</a>
+          <a href="#" target="_blank" rel="noopener">linkedin.com/in/your-profile</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <span>© <span id="year"></span> Mark Kevin Doctor</span>
+    <span class="footer-status"><span class="dot dot-green pulse"></span> uptime: still learning, still building</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
