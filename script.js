@@ -3,11 +3,12 @@
 // =========================================================
 const bootLines = [
   { text: '$ status --check-all', type: 'cmd' },
-  { text: '[ OK ] software_engineering ......... online', type: 'ok' },
+  { text: '[ OK ] software_engineering .......... online', type: 'ok' },
   { text: '[ OK ] web_development ............... online', type: 'ok' },
   { text: '[ OK ] it_helpdesk_support ........... online', type: 'ok' },
-  { text: '[ OK ] shopify ........................ online', type: 'ok' },
-  { text: '[ OK ] ai_automation .................. online', type: 'ok' },
+  { text: '[ OK ] shopify ....................... online', type: 'ok' },
+  { text: '[ OK ] ai_automation ................. online', type: 'ok' },
+  { text: '[ OK ] VOIP .......................... online', type: 'ok' },
   { text: '', type: 'blank' },
   { text: 'Ready to help. Scroll down ↓', type: 'info' },
 ];
