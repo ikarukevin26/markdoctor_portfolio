@@ -355,6 +355,7 @@ input, select, textarea { font-family: inherit; }
 .skill-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .skill-head h3 { font-family: var(--font-display); font-size: 15px; font-weight: 600; }
 .skill-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 16px; }
+.skill-desc-spaced { margin-top: 16px; }
 
 /* =========================================================
    METRICS
