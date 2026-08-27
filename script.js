@@ -97,9 +97,143 @@ function initReveal() {
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
 
   items.forEach(i => observer.observe(i));
+}
+
+// =========================================================
+// Scroll progress bar
+// =========================================================
+function initScrollProgress() {
+  const bar = document.getElementById('scrollProgress');
+  if (!bar) return;
+
+  function update() {
+    const doc = document.documentElement;
+    const scrollable = doc.scrollHeight - doc.clientHeight;
+    const pct = scrollable > 0 ? (doc.scrollTop / scrollable) * 100 : 0;
+    bar.style.width = pct + '%';
+  }
+
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+}
+
+// =========================================================
+// Nav scrollspy — highlights the current section's nav link
+// =========================================================
+function initScrollspy() {
+  const links = document.querySelectorAll('.nav-links a[href^="#"]');
+  const sections = Array.from(links)
+    .map(link => document.querySelector(link.getAttribute('href')))
+    .filter(Boolean);
+  if (!sections.length || !('IntersectionObserver' in window)) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const link = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+      if (!link) return;
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('is-active'));
+        link.classList.add('is-active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+  sections.forEach(s => observer.observe(s));
+}
+
+// =========================================================
+// Hero parallax + mouse-reactive spotlight
+// =========================================================
+function initHeroInteractions() {
+  const hero = document.querySelector('.hero');
+  const grid = document.getElementById('heroGrid');
+  if (!hero) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  hero.addEventListener('mousemove', (e) => {
+    const rect = hero.getBoundingClientRect();
+    const mx = ((e.clientX - rect.left) / rect.width) * 100;
+    const my = ((e.clientY - rect.top) / rect.height) * 100;
+    hero.style.setProperty('--mx', mx + '%');
+    hero.style.setProperty('--my', my + '%');
+  });
+
+  if (grid && !prefersReduced) {
+    window.addEventListener('scroll', () => {
+      const offset = window.scrollY * 0.08;
+      grid.style.transform = `translateY(${offset}px)`;
+    }, { passive: true });
+  }
+}
+
+// =========================================================
+// Card spotlight micro-interaction (project cards & skill panels)
+// =========================================================
+function initCardSpotlight() {
+  const cards = document.querySelectorAll('.project-card, .skill-panel');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty('--x', x + '%');
+      card.style.setProperty('--y', y + '%');
+    });
+  });
+}
+
+// =========================================================
+// Animated metrics — count-up numbers + fill bars on reveal
+// =========================================================
+function initMetrics() {
+  const cards = document.querySelectorAll('.metric-card');
+  if (!cards.length) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function animateCount(card) {
+    const target = parseInt(card.dataset.target, 10) || 0;
+    const numEl = card.querySelector('.metric-num');
+    card.style.setProperty('--target-pct', Math.min(target, 100) + '%');
+    card.classList.add('is-counted');
+
+    if (prefersReduced || !numEl) {
+      if (numEl) numEl.textContent = target;
+      return;
+    }
+
+    const duration = 1100;
+    const start = performance.now();
+
+    function tick(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      numEl.textContent = Math.round(target * eased);
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    cards.forEach(animateCount);
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCount(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+
+  cards.forEach(c => observer.observe(c));
 }
 
 // =========================================================
@@ -165,6 +299,11 @@ document.addEventListener('DOMContentLoaded', () => {
   runBootSequence();
   initNavToggle();
   initReveal();
+  initScrollProgress();
+  initScrollspy();
+  initHeroInteractions();
+  initCardSpotlight();
+  initMetrics();
   initTicketForm();
   setYear();
 });

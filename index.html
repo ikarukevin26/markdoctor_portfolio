@@ -13,6 +13,7 @@
 <body>
 
 <div class="scanline" aria-hidden="true"></div>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
 <!-- ============ NAV ============ -->
 <header class="nav">
@@ -38,6 +39,8 @@
 <!-- ============ HERO ============ -->
 <main id="top">
 <section class="hero">
+  <div class="hero-grid" id="heroGrid" aria-hidden="true"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
   <div class="hero-inner">
     <div class="window boot-window">
       <div class="window-bar">
@@ -117,20 +120,24 @@
   <div class="section-inner">
     <span class="section-label">metrics --summary</span>
     <div class="metrics-grid">
-      <div class="metric-card">
-        <span class="metric-value">30<span class="metric-unit">%</span></span>
+      <div class="metric-card" data-target="30">
+        <span class="metric-value"><span class="metric-num">0</span><span class="metric-unit">%</span></span>
+        <span class="metric-bar"><span class="metric-bar-fill"></span></span>
         <span class="metric-label">system performance improved through code optimization &amp; refactoring</span>
       </div>
-      <div class="metric-card">
-        <span class="metric-value">25<span class="metric-unit">%</span></span>
+      <div class="metric-card" data-target="25">
+        <span class="metric-value"><span class="metric-num">0</span><span class="metric-unit">%</span></span>
+        <span class="metric-bar"><span class="metric-bar-fill"></span></span>
         <span class="metric-label">faster average ticket resolution time (Tier 1–2 support)</span>
       </div>
-      <div class="metric-card">
-        <span class="metric-value">98<span class="metric-unit">%</span></span>
+      <div class="metric-card" data-target="98">
+        <span class="metric-value"><span class="metric-num">0</span><span class="metric-unit">%</span></span>
+        <span class="metric-bar"><span class="metric-bar-fill"></span></span>
         <span class="metric-label">client satisfaction score leading a 20-person support team</span>
       </div>
-      <div class="metric-card">
-        <span class="metric-value">35<span class="metric-unit">%</span></span>
+      <div class="metric-card" data-target="35">
+        <span class="metric-value"><span class="metric-num">0</span><span class="metric-unit">%</span></span>
+        <span class="metric-bar"><span class="metric-bar-fill"></span></span>
         <span class="metric-label">productivity increase from training programs I built &amp; ran</span>
       </div>
     </div>
@@ -384,9 +391,21 @@
 
       <!-- 1: Maluho-Timesheet -->
       <article class="project-card">
-        <div class="project-icon icon-green">
-          <svg class="icon-clock" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="20" cy="21" r="12"/><path class="clock-hand" d="M20 14v7l5 3"/><path d="M15 4h10M20 4v4"/>
+        <div class="project-visual icon-green">
+          <svg viewBox="0 0 260 108" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="260" height="22" fill="var(--panel-bar)" stroke="none"/>
+            <rect y="22" width="260" height="1" fill="var(--border)" stroke="none"/>
+            <circle cx="14" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="24" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="34" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <g transform="translate(4,28) scale(1.25)">
+              <circle cx="20" cy="21" r="12"/><path class="clock-hand" d="M20 14v7l5 3"/><path d="M15 4h10M20 4v4"/>
+            </g>
+            <g stroke-opacity="0.55">
+              <path class="dash-1" d="M112 44h128"/>
+              <path class="dash-2" d="M112 64h94"/>
+              <path class="dash-3" d="M112 84h60"/>
+            </g>
           </svg>
         </div>
         <div class="project-status"><span class="dot dot-green pulse"></span> deployed</div>
@@ -398,10 +417,21 @@
 
       <!-- 2: FlappyBrid_Quiz -->
       <article class="project-card">
-        <div class="project-icon icon-cyan">
-          <svg class="icon-bird" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <ellipse cx="18" cy="20" rx="8" ry="6"/><path class="wing-flap" d="M26 18l6-2-4 5"/><path d="M12 18c-2-2-2-5 0-6"/><circle cx="22" cy="17" r="1.1" fill="currentColor" stroke="none"/>
-            <path d="M8 30h6M22 33h8M6 8h5" stroke-opacity="0.5"/>
+        <div class="project-visual icon-cyan">
+          <svg viewBox="0 0 260 108" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="260" height="22" fill="var(--panel-bar)" stroke="none"/>
+            <rect y="22" width="260" height="1" fill="var(--border)" stroke="none"/>
+            <circle cx="14" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="24" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="34" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <g transform="translate(4,28) scale(1.25)">
+              <ellipse cx="18" cy="20" rx="8" ry="6"/><path class="wing-flap" d="M26 18l6-2-4 5"/><path d="M12 18c-2-2-2-5 0-6"/><circle cx="22" cy="17" r="1.1" fill="currentColor" stroke="none"/>
+            </g>
+            <g stroke-opacity="0.6">
+              <path d="M130 30v26M130 68v18"/>
+              <path d="M168 30v14M168 56v30"/>
+              <path d="M206 30v40M206 82v6"/>
+            </g>
           </svg>
         </div>
         <div class="project-status"><span class="dot dot-cyan pulse"></span> deployed</div>
@@ -413,9 +443,21 @@
 
       <!-- 3: Snake_Quiz -->
       <article class="project-card">
-        <div class="project-icon icon-amber">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path class="snake-move" d="M8 14c0 4 4 4 4 8s4 4 4 8s4 4 8 4"/><circle cx="28" cy="10" r="2.3" fill="currentColor" stroke="none"/>
+        <div class="project-visual icon-amber">
+          <svg viewBox="0 0 260 108" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="260" height="22" fill="var(--panel-bar)" stroke="none"/>
+            <rect y="22" width="260" height="1" fill="var(--border)" stroke="none"/>
+            <circle cx="14" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="24" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="34" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <g transform="translate(4,28) scale(1.25)">
+              <path class="snake-move" d="M8 14c0 4 4 4 4 8s4 4 4 8s4 4 8 4"/><circle cx="28" cy="10" r="2.3" fill="currentColor" stroke="none"/>
+            </g>
+            <g fill="currentColor" stroke="none">
+              <circle class="scan-1" cx="112" cy="50" r="3"/><circle class="scan-2" cx="132" cy="50" r="3"/><circle class="scan-3" cx="152" cy="50" r="3"/>
+              <circle class="scan-2" cx="112" cy="70" r="3"/><circle class="scan-3" cx="132" cy="70" r="3"/><circle class="scan-1" cx="152" cy="70" r="3"/>
+            </g>
+            <path d="M112 90h90" stroke-opacity="0.3"/>
           </svg>
         </div>
         <div class="project-status"><span class="dot dot-amber pulse"></span> deployed</div>
@@ -427,9 +469,21 @@
 
       <!-- 4: Maluho-Sales -->
       <article class="project-card">
-        <div class="project-icon icon-green">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path class="bar-1" d="M8 32V16"/><path class="bar-2" d="M18 32V10"/><path class="bar-3" d="M28 32V21"/><path d="M6 32h28"/><path d="M23 12l6-5 3 3"/>
+        <div class="project-visual icon-green">
+          <svg viewBox="0 0 260 108" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="260" height="22" fill="var(--panel-bar)" stroke="none"/>
+            <rect y="22" width="260" height="1" fill="var(--border)" stroke="none"/>
+            <circle cx="14" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="24" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="34" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <g transform="translate(4,28) scale(1.25)">
+              <path class="bar-1" d="M8 32V16"/><path class="bar-2" d="M18 32V10"/><path class="bar-3" d="M28 32V21"/><path d="M6 32h28"/><path d="M23 12l6-5 3 3"/>
+            </g>
+            <g stroke-opacity="0.55">
+              <path class="dash-1" d="M116 46h124"/>
+              <path class="dash-2" d="M116 66h90"/>
+              <path class="dash-3" d="M116 86h56"/>
+            </g>
           </svg>
         </div>
         <div class="project-status"><span class="dot dot-green pulse"></span> deployed</div>
@@ -441,9 +495,21 @@
 
       <!-- 5: The-Real-Maluho -->
       <article class="project-card">
-        <div class="project-icon icon-cyan">
-          <svg class="icon-diamond" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 4l10 8-3 12H13L10 12z"/><path d="M13 24l7 12 7-12"/>
+        <div class="project-visual icon-cyan">
+          <svg viewBox="0 0 260 108" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="260" height="22" fill="var(--panel-bar)" stroke="none"/>
+            <rect y="22" width="260" height="1" fill="var(--border)" stroke="none"/>
+            <circle cx="14" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="24" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="34" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <g class="icon-diamond" transform="translate(4,28) scale(1.25)">
+              <path d="M20 4l10 8-3 12H13L10 12z"/><path d="M13 24l7 12 7-12"/>
+            </g>
+            <g fill="currentColor" fill-opacity="0.14">
+              <rect class="scan-1" x="110" y="46" width="26" height="26" rx="4" stroke-opacity="0.5"/>
+              <rect class="scan-2" x="144" y="46" width="26" height="26" rx="4" stroke-opacity="0.5"/>
+              <rect class="scan-3" x="178" y="46" width="26" height="26" rx="4" stroke-opacity="0.5"/>
+            </g>
           </svg>
         </div>
         <div class="project-status"><span class="dot dot-cyan pulse"></span> live</div>
@@ -455,9 +521,22 @@
 
       <!-- 6: Maluho-POS -->
       <article class="project-card">
-        <div class="project-icon icon-amber">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="9" y="9" width="22" height="16" rx="2"/><path d="M9 15h22"/><path class="pos-blink" d="M14 30h12M20 25v5"/>
+        <div class="project-visual icon-amber">
+          <svg viewBox="0 0 260 108" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="260" height="22" fill="var(--panel-bar)" stroke="none"/>
+            <rect y="22" width="260" height="1" fill="var(--border)" stroke="none"/>
+            <circle cx="14" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="24" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="34" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <g transform="translate(4,28) scale(1.25)">
+              <rect x="9" y="9" width="22" height="16" rx="2"/><path d="M9 15h22"/><path class="pos-blink" d="M14 30h12M20 25v5"/>
+            </g>
+            <g stroke-opacity="0.55">
+              <path class="dash-1" d="M118 44h112"/>
+              <path class="dash-2" d="M118 60h86"/>
+              <path class="dash-3" d="M118 76h60"/>
+              <path d="M118 92h112" stroke-opacity="0.9"/>
+            </g>
           </svg>
         </div>
         <div class="project-status"><span class="dot dot-amber pulse"></span> deployed</div>
@@ -469,9 +548,21 @@
 
       <!-- 7: MaluhoAuthenticator -->
       <article class="project-card">
-        <div class="project-icon icon-green">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 5l12 5v9c0 8-5 13-12 16-7-3-12-8-12-16v-9z"/><path class="check-draw" d="M15 20l4 4 7-8"/>
+        <div class="project-visual icon-green">
+          <svg viewBox="0 0 260 108" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="260" height="22" fill="var(--panel-bar)" stroke="none"/>
+            <rect y="22" width="260" height="1" fill="var(--border)" stroke="none"/>
+            <circle cx="14" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="24" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="34" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <g transform="translate(4,28) scale(1.25)">
+              <path d="M20 5l12 5v9c0 8-5 13-12 16-7-3-12-8-12-16v-9z"/><path class="check-draw" d="M15 20l4 4 7-8"/>
+            </g>
+            <g stroke-opacity="0.55">
+              <path class="dash-1" d="M114 44h118"/>
+              <path class="dash-2" d="M114 64h84"/>
+              <path class="dash-3" d="M114 84h50"/>
+            </g>
           </svg>
         </div>
         <div class="project-status"><span class="dot dot-green pulse"></span> deployed</div>
@@ -483,10 +574,22 @@
 
       <!-- 8: FingerprintHelper -->
       <article class="project-card">
-        <div class="project-icon icon-cyan">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-            <path class="scan-1" d="M20 10a10 10 0 0 1 10 10v3"/><path class="scan-2" d="M20 14a6 6 0 0 1 6 6v4"/><path class="scan-3" d="M20 18a2 2 0 0 1 2 2v6"/>
-            <path class="scan-2" d="M14 16a10 10 0 0 0-1 4v4"/><path class="scan-1" d="M17 14a10 10 0 0 0-4 8v3"/>
+        <div class="project-visual icon-cyan">
+          <svg viewBox="0 0 260 108" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <rect width="260" height="22" fill="var(--panel-bar)" stroke="none"/>
+            <rect y="22" width="260" height="1" fill="var(--border)" stroke="none"/>
+            <circle cx="14" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="24" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="34" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <g transform="translate(4,28) scale(1.25)">
+              <path class="scan-1" d="M20 10a10 10 0 0 1 10 10v3"/><path class="scan-2" d="M20 14a6 6 0 0 1 6 6v4"/><path class="scan-3" d="M20 18a2 2 0 0 1 2 2v6"/>
+              <path class="scan-2" d="M14 16a10 10 0 0 0-1 4v4"/><path class="scan-1" d="M17 14a10 10 0 0 0-4 8v3"/>
+            </g>
+            <g fill="currentColor" fill-opacity="0.14" stroke-opacity="0.5">
+              <rect class="scan-2" x="112" y="46" width="24" height="24" rx="4"/>
+              <rect class="scan-3" x="144" y="46" width="24" height="24" rx="4"/>
+              <rect class="scan-1" x="176" y="46" width="24" height="24" rx="4"/>
+            </g>
           </svg>
         </div>
         <div class="project-status"><span class="dot dot-cyan pulse"></span> deployed</div>
@@ -498,9 +601,21 @@
 
       <!-- 9: Inventory -->
       <article class="project-card">
-        <div class="project-icon icon-amber">
-          <svg class="icon-box" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path class="box-lid" d="M20 5l14 7-14 7-14-7z"/><path d="M6 12v16l14 7 14-7V12"/><path d="M20 19v16"/>
+        <div class="project-visual icon-amber">
+          <svg viewBox="0 0 260 108" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="260" height="22" fill="var(--panel-bar)" stroke="none"/>
+            <rect y="22" width="260" height="1" fill="var(--border)" stroke="none"/>
+            <circle cx="14" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="24" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="34" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <g transform="translate(4,28) scale(1.25)">
+              <path class="box-lid" d="M20 5l14 7-14 7-14-7z"/><path d="M6 12v16l14 7 14-7V12"/><path d="M20 19v16"/>
+            </g>
+            <g stroke-opacity="0.55">
+              <path class="dash-1" d="M116 44h120"/>
+              <path class="dash-2" d="M116 64h88"/>
+              <path class="dash-3" d="M116 84h56"/>
+            </g>
           </svg>
         </div>
         <div class="project-status"><span class="dot dot-amber pulse"></span> deployed</div>
@@ -512,9 +627,23 @@
 
       <!-- 10: azure-customer-view -->
       <article class="project-card">
-        <div class="project-icon icon-green">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path class="cloud-float" d="M13 26a6 6 0 0 1 0-12 8 8 0 0 1 15.5-2A6.5 6.5 0 0 1 27 26z"/><path class="dash-1" d="M14 31h4"/><path class="dash-2" d="M20 31h6"/>
+        <div class="project-visual icon-green">
+          <svg viewBox="0 0 260 108" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="260" height="22" fill="var(--panel-bar)" stroke="none"/>
+            <rect y="22" width="260" height="1" fill="var(--border)" stroke="none"/>
+            <circle cx="14" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="24" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="34" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <g transform="translate(4,28) scale(1.25)">
+              <path class="cloud-float" d="M13 26a6 6 0 0 1 0-12 8 8 0 0 1 15.5-2A6.5 6.5 0 0 1 27 26z"/><path d="M14 31h4"/><path d="M20 31h6"/>
+            </g>
+            <g stroke-opacity="0.9">
+              <path class="bar-1" d="M120 90V62"/>
+              <path class="bar-2" d="M150 90V44"/>
+              <path class="bar-3" d="M180 90V70"/>
+              <path class="bar-1" d="M210 90V54"/>
+              <path d="M112 90h108" stroke-opacity="0.4"/>
+            </g>
           </svg>
         </div>
         <div class="project-status"><span class="dot dot-green pulse"></span> deployed</div>
@@ -526,9 +655,22 @@
 
       <!-- 11: maluho-luxe-shoppe-apple -->
       <article class="project-card">
-        <div class="project-icon icon-cyan">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M11 14h18l-2 18H13z"/><path class="bag-swing" d="M15 14a5 5 0 0 1 10 0"/>
+        <div class="project-visual icon-cyan">
+          <svg viewBox="0 0 260 108" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="260" height="22" fill="var(--panel-bar)" stroke="none"/>
+            <rect y="22" width="260" height="1" fill="var(--border)" stroke="none"/>
+            <circle cx="14" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="24" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="34" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <g transform="translate(4,28) scale(1.25)">
+              <path d="M11 14h18l-2 18H13z"/><path class="bag-swing" d="M15 14a5 5 0 0 1 10 0"/>
+            </g>
+            <g fill="currentColor" fill-opacity="0.14">
+              <rect class="scan-1" x="112" y="48" width="24" height="24" rx="4" stroke-opacity="0.5"/>
+              <rect class="scan-2" x="144" y="48" width="24" height="24" rx="4" stroke-opacity="0.5"/>
+              <rect class="scan-3" x="176" y="48" width="24" height="24" rx="4" stroke-opacity="0.5"/>
+              <rect class="scan-1" x="208" y="48" width="24" height="24" rx="4" stroke-opacity="0.5"/>
+            </g>
           </svg>
         </div>
         <div class="project-status"><span class="dot dot-cyan pulse"></span> live</div>
@@ -540,9 +682,22 @@
 
       <!-- 12: Maluho-Web -->
       <article class="project-card">
-        <div class="project-icon icon-amber">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="20" cy="20" r="14"/><path class="globe-spin" d="M6 20h28M20 6c4 4 4 24 0 28M20 6c-4 4-4 24 0 28" stroke-opacity="0.7"/>
+        <div class="project-visual icon-amber">
+          <svg viewBox="0 0 260 108" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="260" height="22" fill="var(--panel-bar)" stroke="none"/>
+            <rect y="22" width="260" height="1" fill="var(--border)" stroke="none"/>
+            <circle cx="14" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="24" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="34" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <g transform="translate(4,28) scale(1.25)">
+              <circle cx="20" cy="20" r="14"/><path class="globe-spin" d="M6 20h28M20 6c4 4 4 24 0 28M20 6c-4 4-4 24 0 28" stroke-opacity="0.7"/>
+            </g>
+            <g stroke-opacity="0.55">
+              <path class="dash-1" d="M116 42h124"/>
+              <path class="dash-2" d="M116 58h94"/>
+              <path class="dash-3" d="M116 74h70"/>
+              <path d="M116 90h50" stroke-opacity="0.9"/>
+            </g>
           </svg>
         </div>
         <div class="project-status"><span class="dot dot-amber pulse"></span> live</div>
@@ -554,10 +709,23 @@
 
       <!-- 13: sample_neo4j -->
       <article class="project-card">
-        <div class="project-icon icon-green">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <circle class="node-pulse node-a" cx="10" cy="12" r="3.2"/><circle class="node-pulse node-b" cx="30" cy="12" r="3.2"/><circle class="node-pulse node-c" cx="20" cy="30" r="3.2"/>
-            <path class="edge-flow" d="M13 12h14M12 15l6 12M28 15l-6 12"/>
+        <div class="project-visual icon-green">
+          <svg viewBox="0 0 260 108" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="260" height="22" fill="var(--panel-bar)" stroke="none"/>
+            <rect y="22" width="260" height="1" fill="var(--border)" stroke="none"/>
+            <circle cx="14" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="24" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="34" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <g transform="translate(4,28) scale(1.25)">
+              <circle class="node-pulse node-a" cx="10" cy="12" r="3.2"/><circle class="node-pulse node-b" cx="30" cy="12" r="3.2"/><circle class="node-pulse node-c" cx="20" cy="30" r="3.2"/>
+              <path class="edge-flow" d="M13 12h14M12 15l6 12M28 15l-6 12"/>
+            </g>
+            <g>
+              <circle class="node-pulse node-b" cx="150" cy="46" r="4"/>
+              <circle class="node-pulse node-c" cx="200" cy="42" r="4"/>
+              <circle class="node-pulse node-a" cx="175" cy="86" r="4"/>
+              <path class="edge-flow" d="M154 47h42M152 50l21 34M197 45l-20 38" stroke-opacity="0.5"/>
+            </g>
           </svg>
         </div>
         <div class="project-status"><span class="dot dot-green pulse"></span> exploratory</div>
@@ -569,14 +737,30 @@
 
       <!-- 14: TheRealMaluho-Automation -->
       <article class="project-card">
-        <div class="project-icon icon-cyan">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 12h22a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H18l-7 5v-5h-2a2 2 0 0 1-2-2V14a2 2 0 0 1 2-2z"/><path class="bolt-flicker" d="M21 16l-4 6h4l-1 5 5-6h-4z" fill="currentColor" stroke="none"/>
+        <div class="project-visual icon-cyan">
+          <svg viewBox="0 0 260 108" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="260" height="22" fill="var(--panel-bar)" stroke="none"/>
+            <rect y="22" width="260" height="1" fill="var(--border)" stroke="none"/>
+            <circle cx="14" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="24" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <circle cx="34" cy="11" r="2.6" fill="var(--border-soft)" stroke="none"/>
+            <g transform="translate(4,28) scale(1.15)">
+              <path d="M9 12h22a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H18l-7 5v-5h-2a2 2 0 0 1-2-2V14a2 2 0 0 1 2-2z"/><path class="bolt-flicker" d="M21 16l-4 6h4l-1 5 5-6h-4z" fill="currentColor" stroke="none"/>
+            </g>
+            <path class="edge-flow" d="M118 62h20" stroke-opacity="0.6"/>
+            <g>
+              <rect x="140" y="48" width="26" height="26" rx="4"/>
+              <path d="M144 56h18M144 62h18M144 68h12" stroke-opacity="0.6"/>
+            </g>
+            <path class="edge-flow" d="M168 62h18" stroke-opacity="0.6"/>
+            <g>
+              <path d="M188 50h30v22h-30z"/><path class="node-pulse node-b" d="M188 52l15 11 15-11"/>
+            </g>
           </svg>
         </div>
         <div class="project-status"><span class="dot dot-cyan pulse"></span> deployed</div>
         <h3>The Real Maluho Automation</h3>
-        <p>An n8n-based AI sales agent for The Real Maluho — handling customer product inquiries over chat, checking live availability against an Azure MySQL inventory database, and generating invoices to reserve items automatically.</p>
+        <p>A Facebook Messenger sales agent built in n8n — an OpenAI-powered Bag Sales Agent with conversation memory that checks live availability in a Google Sheets inventory, logs completed sales, and emails both the customer and the shop owner automatically.</p>
         <div class="tags"><span class="tag">n8n</span><span class="tag">AI Agent</span></div>
         <a href="https://github.com/ikarukevin26/TheRealMaluho-Automation" target="_blank" rel="noopener" class="project-link">View repo →</a>
       </article>
