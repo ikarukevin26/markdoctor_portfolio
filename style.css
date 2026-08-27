@@ -598,7 +598,7 @@ input, select, textarea { font-family: inherit; }
   border: 1px solid var(--border);
   overflow: hidden;
 }
-.project-visual svg, .project-visual img { display: block; width: 100%; height: auto; }
+.project-visual svg { display: block; width: 100%; height: auto; }
 .icon-green { color: var(--green); }
 .icon-cyan  { color: var(--cyan); }
 .icon-amber { color: var(--amber); }
