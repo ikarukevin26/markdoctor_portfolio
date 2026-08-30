@@ -1,66 +1,4 @@
 // =========================================================
-// Boot sequence in hero terminal
-// =========================================================
-const bootLines = [
-  { text: '$ status --check-all', type: 'cmd' },
-  { text: '[ OK ] software_engineering .......... online', type: 'ok' },
-  { text: '[ OK ] web_development ............... online', type: 'ok' },
-  { text: '[ OK ] it_helpdesk_support ........... online', type: 'ok' },
-  { text: '[ OK ] shopify ....................... online', type: 'ok' },
-  { text: '[ OK ] ai_automation ................. online', type: 'ok' },
-  { text: '[ OK ] VOIP .......................... online', type: 'ok' },
-  { text: '', type: 'blank' },
-  { text: 'Ready to help. Scroll down ↓', type: 'info' },
-];
-
-function runBootSequence() {
-  const el = document.getElementById('bootLog');
-  if (!el) return;
-
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (prefersReduced) {
-    el.textContent = bootLines.map(l => l.text).join('\n');
-    return;
-  }
-
-  let lineIndex = 0;
-
-  function typeLine() {
-    if (lineIndex >= bootLines.length) {
-      const cursor = document.createElement('span');
-      cursor.className = 'cursor';
-      cursor.textContent = ' ';
-      el.appendChild(cursor);
-      return;
-    }
-
-    const line = bootLines[lineIndex];
-    const span = document.createElement('span');
-    span.className = line.type === 'ok' ? 'ok' : line.type === 'info' ? 'info' : '';
-    el.appendChild(span);
-
-    let charIndex = 0;
-    const speed = line.type === 'cmd' ? 40 : 6;
-
-    function typeChar() {
-      if (charIndex < line.text.length) {
-        span.textContent += line.text[charIndex];
-        charIndex++;
-        setTimeout(typeChar, speed);
-      } else {
-        el.appendChild(document.createTextNode('\n'));
-        lineIndex++;
-        setTimeout(typeLine, line.type === 'cmd' ? 200 : 90);
-      }
-    }
-    typeChar();
-  }
-
-  typeLine();
-}
-
-// =========================================================
 // Mobile nav toggle
 // =========================================================
 function initNavToggle() {
@@ -78,6 +16,16 @@ function initNavToggle() {
       nav.classList.remove('is-open');
       toggle.setAttribute('aria-expanded', 'false');
     });
+  });
+}
+
+// =========================================================
+// Wrap section titles in split-line spans for a scroll wipe-up reveal
+// =========================================================
+function initSplitTitles() {
+  document.querySelectorAll('.section-title').forEach(el => {
+    const text = el.textContent;
+    el.innerHTML = `<span class="split-line"><span>${text}</span></span>`;
   });
 }
 
@@ -146,36 +94,89 @@ function initScrollspy() {
 }
 
 // =========================================================
-// Hero parallax + mouse-reactive spotlight
+// Custom cursor — a small dot plus a trailing ring that
+// scales up over interactive elements
 // =========================================================
-function initHeroInteractions() {
-  const hero = document.querySelector('.hero');
-  const grid = document.getElementById('heroGrid');
-  if (!hero) return;
+function initCustomCursor() {
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  if (!dot || !ring) return;
+  if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
 
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let ringX = window.innerWidth / 2;
+  let ringY = window.innerHeight / 2;
+  let targetX = ringX;
+  let targetY = ringY;
 
-  hero.addEventListener('mousemove', (e) => {
-    const rect = hero.getBoundingClientRect();
-    const mx = ((e.clientX - rect.left) / rect.width) * 100;
-    const my = ((e.clientY - rect.top) / rect.height) * 100;
-    hero.style.setProperty('--mx', mx + '%');
-    hero.style.setProperty('--my', my + '%');
+  window.addEventListener('mousemove', (e) => {
+    targetX = e.clientX;
+    targetY = e.clientY;
+    dot.style.left = e.clientX + 'px';
+    dot.style.top = e.clientY + 'px';
   });
 
-  if (grid && !prefersReduced) {
-    window.addEventListener('scroll', () => {
-      const offset = window.scrollY * 0.08;
-      grid.style.transform = `translateY(${offset}px)`;
-    }, { passive: true });
+  function animateRing() {
+    ringX += (targetX - ringX) * 0.18;
+    ringY += (targetY - ringY) * 0.18;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
   }
+  requestAnimationFrame(animateRing);
+
+  document.querySelectorAll('a, button, .tag, input, select, textarea, summary').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('is-active'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('is-active'));
+  });
 }
 
 // =========================================================
-// Card spotlight micro-interaction (project cards & skill panels)
+// Magnetic buttons — CTAs drift slightly toward the cursor
+// =========================================================
+function initMagneticButtons() {
+  if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
+
+  document.querySelectorAll('.btn-magnetic').forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      btn.style.transform = `translate(${x * 0.25}px, ${y * 0.4}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+}
+
+// =========================================================
+// Skill tag marquee — duplicate content once for a seamless loop
+// =========================================================
+function initMarquee() {
+  const track = document.getElementById('marqueeTrack');
+  if (!track) return;
+  track.innerHTML += track.innerHTML;
+}
+
+// =========================================================
+// Hero parallax — the giant ghost initials drift slower than scroll
+// =========================================================
+function initHeroParallax() {
+  const mark = document.getElementById('heroMark');
+  if (!mark) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  window.addEventListener('scroll', () => {
+    const offset = window.scrollY * 0.15;
+    mark.style.transform = `translateY(${offset}px)`;
+  }, { passive: true });
+}
+
+// =========================================================
+// Card spotlight micro-interaction (project cards, skill panels, pitch cards)
 // =========================================================
 function initCardSpotlight() {
-  const cards = document.querySelectorAll('.project-card, .skill-panel');
+  const cards = document.querySelectorAll('.project-card, .skill-panel, .pitch-card');
   cards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
@@ -259,7 +260,7 @@ function initTicketForm() {
     const submitBtn = form.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
     status.style.color = 'var(--text-muted)';
-    status.textContent = 'Submitting ticket...';
+    status.textContent = 'Submitting message...';
 
     try {
       const response = await fetch(endpoint, {
@@ -270,7 +271,7 @@ function initTicketForm() {
 
       if (response.ok) {
         status.style.color = 'var(--green)';
-        status.textContent = 'Ticket submitted — I\'ll get back to you shortly.';
+        status.textContent = 'Message sent — I\'ll get back to you shortly.';
         form.reset();
       } else {
         throw new Error('Submission failed');
@@ -296,12 +297,15 @@ function setYear() {
 // Init
 // =========================================================
 document.addEventListener('DOMContentLoaded', () => {
-  runBootSequence();
   initNavToggle();
+  initSplitTitles();
   initReveal();
   initScrollProgress();
   initScrollspy();
-  initHeroInteractions();
+  initCustomCursor();
+  initMagneticButtons();
+  initMarquee();
+  initHeroParallax();
   initCardSpotlight();
   initMetrics();
   initTicketForm();
