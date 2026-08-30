@@ -406,6 +406,25 @@ input, select, textarea { font-family: inherit; }
 .hero-name .split-line:nth-child(2) > span { animation-delay: 0.22s; }
 @keyframes hero-line-in { to { opacity: 1; transform: translateY(0); } }
 
+.hero-heading {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 3vw, 40px);
+}
+.hero-avatar {
+  width: clamp(96px, 11vw, 168px);
+  height: clamp(96px, 11vw, 168px);
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--border);
+  flex-shrink: 0;
+  opacity: 0;
+  transform: translateY(14px) scale(0.94);
+  animation: hero-avatar-in 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+  animation-delay: 0.08s;
+}
+@keyframes hero-avatar-in { to { opacity: 1; transform: translateY(0) scale(1); } }
+
 .hero-role {
   font-size: clamp(18px, 2.2vw, 24px);
   color: var(--text-muted);
@@ -430,13 +449,6 @@ input, select, textarea { font-family: inherit; }
   transform: translateY(14px);
   animation: hero-in 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
   animation-delay: 0.5s;
-}
-.hero-avatar {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--border);
 }
 
 .hero-scroll-cue {
