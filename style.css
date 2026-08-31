@@ -608,6 +608,45 @@ input, select, textarea { font-family: inherit; }
 .center-flow-node-group:focus-visible .center-flow-label {
   fill: var(--text);
 }
+
+/* nested sub-cluster — blooms out of one node (e.g. Databases) on hover/focus */
+.center-flow-subcluster {
+  opacity: 0;
+  transform: scale(0.35);
+  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+}
+.center-flow-node-group:hover .center-flow-subcluster,
+.center-flow-node-group:focus-within .center-flow-subcluster {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+.center-flow-subspoke {
+  stroke-dasharray: 3 8;
+  opacity: 0.6;
+  animation: cf-flow 1.3s linear infinite;
+}
+.center-flow-subnode-group { cursor: pointer; outline: none; }
+.center-flow-subnode {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.2s ease;
+}
+.center-flow-subnode-group:hover .center-flow-subnode,
+.center-flow-subnode-group:focus-visible .center-flow-subnode {
+  transform: scale(1.35);
+}
+.center-flow-sublabel {
+  font-family: var(--font-mono);
+  fill: var(--text-dim);
+  transition: fill 0.2s ease;
+  user-select: none;
+}
+.center-flow-subnode-group:hover .center-flow-sublabel,
+.center-flow-subnode-group:focus-visible .center-flow-sublabel {
+  fill: var(--text);
+}
 .center-flow-caption {
   font-size: 13.5px;
   color: var(--text-muted);
