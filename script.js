@@ -606,14 +606,49 @@ function initMetrics() {
 // flies in on click and blasts into a scatter of tech-stack pills,
 // which settle into place as the "colorful result."
 // =========================================================
+function buildMagicDoc() {
+  const NS_COLORS = ['var(--green)', 'var(--cyan)', 'var(--amber)', 'var(--accent)'];
+  const cols = 14;
+  const rows = 6;
+
+  const doc = document.createElement('div');
+  doc.className = 'magic-doc';
+  doc.setAttribute('aria-hidden', 'true');
+
+  const bar = document.createElement('div');
+  bar.className = 'magic-doc-bar';
+  doc.appendChild(bar);
+
+  const grid = document.createElement('div');
+  grid.className = 'magic-doc-grid';
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const dot = document.createElement('span');
+      dot.className = 'magic-dot';
+      dot.style.setProperty('--rest-opacity', (0.15 + Math.random() * 0.35).toFixed(2));
+      dot.style.setProperty('--dot-color', NS_COLORS[(r + c) % NS_COLORS.length]);
+      dot.style.setProperty('--wipe-delay', (c * 0.045 + r * 0.015 + Math.random() * 0.02).toFixed(3) + 's');
+      grid.appendChild(dot);
+    }
+  }
+  doc.appendChild(grid);
+
+  const scanline = document.createElement('div');
+  scanline.className = 'magic-doc-scanline';
+  doc.appendChild(scanline);
+
+  return doc;
+}
+
 function initTechBlast() {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   document.querySelectorAll('.log-techstack').forEach(block => {
     const trigger = block.querySelector('.techstack-trigger');
     const label = block.querySelector('.techstack-trigger-label');
+    const particles = block.querySelector('.techstack-particles');
     const pills = block.querySelectorAll('.techstack-pill');
-    if (!trigger || !pills.length) return;
+    if (!trigger || !pills.length || !particles) return;
 
     pills.forEach((pill, i) => {
       const angleSpread = (Math.random() - 0.5) * 160;
@@ -627,11 +662,32 @@ function initTechBlast() {
       pill.style.setProperty('--delay', delay.toFixed(2) + 's');
     });
 
-    trigger.addEventListener('click', () => {
-      if (block.classList.contains('is-blasted')) return;
+    const magicDoc = buildMagicDoc();
+    block.insertBefore(magicDoc, particles);
+
+    function reveal() {
       block.classList.add('is-blasted');
-      trigger.disabled = true;
       if (label) label.textContent = 'Tech stack revealed';
+    }
+
+    trigger.addEventListener('click', () => {
+      if (block.classList.contains('is-blasted') || block.classList.contains('is-transforming')) return;
+      block.classList.add('is-transforming');
+      trigger.disabled = true;
+
+      if (prefersReduced) {
+        reveal();
+        return;
+      }
+
+      magicDoc.classList.add('is-visible');
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => magicDoc.classList.add('is-flying-in'));
+      });
+
+      setTimeout(() => magicDoc.classList.add('is-scanning'), 340);
+      setTimeout(() => magicDoc.classList.add('is-clearing'), 340 + 900);
+      setTimeout(reveal, 340 + 900 + 250);
     });
   });
 }
