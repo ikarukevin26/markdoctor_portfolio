@@ -607,37 +607,121 @@ function initScrollspy() {
 // Custom cursor — a small dot plus a trailing ring that
 // scales up over interactive elements
 // =========================================================
-function initCustomCursor() {
-  const dot = document.getElementById('cursorDot');
-  const ring = document.getElementById('cursorRing');
-  if (!dot || !ring) return;
-  if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
+// =========================================================
+// Smooth cursor — original vanilla-JS canvas cursor trail driven
+// by spring physics, inspired by React Bits Pro's "Smooth Cursor"
+// concept (a licensed component this project has no access to and
+// no React build to install it into). Renders a fading trail of
+// circles behind a spring-eased head dot that chases the real
+// pointer, rather than snapping straight to it.
+// =========================================================
+function hexToRgba(hex, alpha) {
+  const clean = hex.replace('#', '').trim();
+  const full = clean.length === 3 ? clean.split('').map(c => c + c).join('') : clean;
+  const r = parseInt(full.slice(0, 2), 16);
+  const g = parseInt(full.slice(2, 4), 16);
+  const b = parseInt(full.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
 
-  let ringX = window.innerWidth / 2;
-  let ringY = window.innerHeight / 2;
-  let targetX = ringX;
-  let targetY = ringY;
+function initSmoothCursor() {
+  const canvas = document.getElementById('smoothCursor');
+  if (!canvas) return;
+  if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const ctx = canvas.getContext('2d');
+  const accentHex = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#8B93FF';
+
+  function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let hasMouse = false;
+  let isActive = false;
 
   window.addEventListener('mousemove', (e) => {
-    targetX = e.clientX;
-    targetY = e.clientY;
-    dot.style.left = e.clientX + 'px';
-    dot.style.top = e.clientY + 'px';
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    hasMouse = true;
   });
-
-  function animateRing() {
-    ringX += (targetX - ringX) * 0.18;
-    ringY += (targetY - ringY) * 0.18;
-    ring.style.left = ringX + 'px';
-    ring.style.top = ringY + 'px';
-    requestAnimationFrame(animateRing);
-  }
-  requestAnimationFrame(animateRing);
+  window.addEventListener('mouseleave', () => { hasMouse = false; });
 
   document.querySelectorAll('a, button, .tag, input, select, textarea, summary').forEach(el => {
-    el.addEventListener('mouseenter', () => ring.classList.add('is-active'));
-    el.addEventListener('mouseleave', () => ring.classList.remove('is-active'));
+    el.addEventListener('mouseenter', () => { isActive = true; });
+    el.addEventListener('mouseleave', () => { isActive = false; });
   });
+
+  // Spring-damper: acceleration pulls the head toward the pointer,
+  // damping bleeds off velocity so it settles instead of oscillating
+  // forever — a springy chase rather than a linear lerp-follow.
+  const stiffness = 170;
+  const damping = 20;
+  let posX = mouseX;
+  let posY = mouseY;
+  let velX = 0;
+  let velY = 0;
+
+  const trail = [];
+  const trailLength = 14;
+
+  let lastTs = null;
+  function animate(ts) {
+    if (lastTs === null) lastTs = ts;
+    const dt = Math.min(0.032, Math.max(0, ts - lastTs) / 1000);
+    lastTs = ts;
+
+    const ax = (mouseX - posX) * stiffness - velX * damping;
+    const ay = (mouseY - posY) * stiffness - velY * damping;
+    velX += ax * dt;
+    velY += ay * dt;
+    posX += velX * dt;
+    posY += velY * dt;
+
+    trail.push({ x: posX, y: posY });
+    if (trail.length > trailLength) trail.shift();
+
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+    if (hasMouse) {
+      trail.forEach((p, i) => {
+        const t = (i + 1) / trail.length;
+        ctx.beginPath();
+        ctx.fillStyle = hexToRgba(accentHex, 0.05 + 0.3 * t);
+        ctx.arc(p.x, p.y, 1.5 + 5.5 * t, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      const headRadius = isActive ? 17 : 8;
+      ctx.beginPath();
+      ctx.shadowColor = hexToRgba(accentHex, 0.8);
+      ctx.shadowBlur = isActive ? 22 : 10;
+      ctx.fillStyle = hexToRgba(accentHex, 0.9);
+      ctx.arc(posX, posY, headRadius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      if (isActive) {
+        ctx.beginPath();
+        ctx.strokeStyle = hexToRgba(accentHex, 0.8);
+        ctx.lineWidth = 1.5;
+        ctx.arc(posX, posY, headRadius + 11, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
 }
 
 // =========================================================
@@ -812,7 +896,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initReveal();
   initScrollProgress();
   initScrollspy();
-  initCustomCursor();
+  initSmoothCursor();
   initMagneticButtons();
   initMarquee();
   initHeroParallax();
