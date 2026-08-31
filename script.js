@@ -372,30 +372,81 @@ const CORE_SKILLS = [
   { short: 'Tech Support', full: 'Technical Support & Troubleshooting' },
   { short: 'Help Desk', full: 'Tier 1–2 Help Desk Support' },
   { short: 'Incident Mgmt', full: 'Incident Management & Root Cause Analysis' },
-  { short: 'Cloud Support', full: 'Cloud Platform Support (Microsoft Azure, SaaS)' },
+  {
+    short: 'Cloud Support', full: 'Cloud Platform Support (Microsoft Azure, SaaS)',
+    nested: [
+      { short: 'Microsoft Azure', full: 'Microsoft Azure' },
+      { short: 'SaaS', full: 'SaaS Platforms' }
+    ]
+  },
   { short: 'Active Directory', full: 'Active Directory & User Access Management' },
-  { short: 'Networking', full: 'Network Troubleshooting (TCP/IP, DNS, DHCP, VLAN, NAT, Firewalls, QoS)' },
-  { short: 'VoIP & SIP', full: 'VoIP & SIP Systems (Call Routing, IVR, RTP, Softphones)' },
-  { short: 'Databases', full: 'Database Troubleshooting (MySQL, Microsoft SQL Server, PostgreSQL, NoSQL)' },
+  {
+    short: 'Networking', full: 'Network Troubleshooting (TCP/IP, DNS, DHCP, VLAN, NAT, Firewalls, QoS)',
+    nested: [
+      { short: 'TCP/IP', full: 'TCP/IP' },
+      { short: 'DNS', full: 'DNS' },
+      { short: 'DHCP', full: 'DHCP' },
+      { short: 'VLAN', full: 'VLAN' },
+      { short: 'NAT', full: 'NAT' },
+      { short: 'Firewalls', full: 'Firewalls' },
+      { short: 'QoS', full: 'QoS' }
+    ]
+  },
+  {
+    short: 'VoIP & SIP', full: 'VoIP & SIP Systems (Call Routing, IVR, RTP, Softphones)',
+    nested: [
+      { short: 'Call Routing', full: 'Call Routing' },
+      { short: 'IVR', full: 'IVR' },
+      { short: 'RTP', full: 'RTP' },
+      { short: 'Softphones', full: 'Softphones' }
+    ]
+  },
+  {
+    short: 'Databases', full: 'Database Troubleshooting (MySQL, Microsoft SQL Server, PostgreSQL, NoSQL)',
+    nested: [
+      { short: 'MySQL', full: 'MySQL' },
+      { short: 'PostgreSQL', full: 'PostgreSQL' },
+      { short: 'SQL Server', full: 'Microsoft SQL Server' },
+      { short: 'Neo4j', full: 'Neo4j' },
+      { short: 'SQLite', full: 'SQLite' }
+    ]
+  },
   { short: 'Ticketing & Docs', full: 'Ticketing Systems & Technical Documentation' },
   { short: 'Remote Support', full: 'Remote Support Tools' },
-  { short: 'Software Dev', full: 'Software Development (C#, JavaScript, HTML/CSS, Visual Studio)' },
+  {
+    short: 'Software Dev', full: 'Software Development (C#, JavaScript, HTML/CSS, Visual Studio)',
+    nested: [
+      { short: 'C#', full: 'C#' },
+      { short: 'JavaScript', full: 'JavaScript' },
+      { short: 'HTML/CSS', full: 'HTML/CSS' },
+      { short: 'Visual Studio', full: 'Visual Studio' }
+    ]
+  },
   { short: 'CI/CD', full: 'CI/CD' },
-  { short: 'AI Automation', full: 'AI Workflow Automation (n8n Cloud, Claude)' },
+  {
+    short: 'AI Automation', full: 'AI Workflow Automation (n8n Cloud, Claude)',
+    nested: [
+      { short: 'n8n Cloud', full: 'n8n Cloud' },
+      { short: 'Claude', full: 'Claude' }
+    ]
+  },
   { short: 'Leadership', full: 'Team Leadership & Training' }
 ];
 
-function initCenterFlow() {
-  const container = document.getElementById('centerFlow');
-  const caption = document.getElementById('centerFlowCaption');
+function buildCenterFlow(config) {
+  const container = document.getElementById(config.containerId);
+  const caption = document.getElementById(config.captionId);
   if (!container) return;
 
   const NS = 'http://www.w3.org/2000/svg';
-  const size = 600;
+  const size = config.size;
   const cx = size / 2;
   const cy = size / 2;
-  const radius = 195;
-  const hubRadius = 38;
+  const radius = config.radius;
+  const hubRadius = config.hubRadius;
+  const nodeRadius = config.nodeRadius || 6;
+  const fontSize = config.fontSize || 12;
+  const items = config.items;
   const colors = ['var(--green)', 'var(--cyan)', 'var(--amber)', 'var(--accent)'];
   const defaultCaption = caption ? caption.textContent : '';
 
@@ -419,8 +470,8 @@ function initCenterFlow() {
 
   const groups = [];
 
-  CORE_SKILLS.forEach((skill, i) => {
-    const angle = (Math.PI * 2 * i) / CORE_SKILLS.length - Math.PI / 2;
+  items.forEach((item, i) => {
+    const angle = (Math.PI * 2 * i) / items.length - Math.PI / 2;
     const nx = cx + radius * Math.cos(angle);
     const ny = cy + radius * Math.sin(angle);
     const cos = Math.cos(angle);
@@ -436,17 +487,17 @@ function initCenterFlow() {
 
     const g = el('g', {
       class: 'center-flow-node-group', tabindex: '0', role: 'button',
-      'aria-label': skill.full
+      'aria-label': item.full
     });
 
     const node = el('circle', {
-      cx: nx, cy: ny, r: 6, fill: color, class: 'center-flow-node'
+      cx: nx, cy: ny, r: nodeRadius, fill: color, class: 'center-flow-node'
     });
     g.appendChild(node);
 
     let anchor = 'middle';
     let lx = nx;
-    let ly = ny - 16;
+    let ly = ny - (nodeRadius + 10);
     if (cos > 0.3) {
       anchor = 'start';
       lx = nx + 13;
@@ -456,19 +507,86 @@ function initCenterFlow() {
       lx = nx - 13;
       ly = ny + 4;
     } else {
-      ly = sin > 0 ? ny + 20 : ny - 13;
+      ly = sin > 0 ? ny + (nodeRadius + 14) : ny - (nodeRadius + 7);
     }
 
     const label = el('text', {
-      x: lx, y: ly, 'text-anchor': anchor, 'font-size': '12',
+      x: lx, y: ly, 'text-anchor': anchor, 'font-size': String(fontSize),
       class: 'center-flow-label'
     });
-    label.textContent = skill.short;
+    label.textContent = item.short;
     g.appendChild(label);
+
+    if (item.nested && item.nested.length) {
+      const subCluster = el('g', { class: 'center-flow-subcluster' });
+      subCluster.style.transformOrigin = `${nx}px ${ny}px`;
+
+      const subRadius = nodeRadius + 58;
+      const spreadDeg = item.nested.length > 5 ? 85 : 100;
+      const spreadRad = (spreadDeg * Math.PI) / 180;
+      const subFontSize = Math.max(9, fontSize - (item.nested.length > 5 ? 3 : 2));
+
+      item.nested.forEach((subItem, j) => {
+        const subAngle = angle + (item.nested.length === 1 ? 0 : spreadRad * (j / (item.nested.length - 1) - 0.5));
+        const subCos = Math.cos(subAngle);
+        const subSin = Math.sin(subAngle);
+        const sx = nx + subRadius * subCos;
+        const sy = ny + subRadius * subSin;
+        const subColor = colors[(i + j + 1) % colors.length];
+
+        const subSpoke = el('line', {
+          x1: nx, y1: ny, x2: sx, y2: sy,
+          class: 'center-flow-subspoke', stroke: subColor, 'stroke-width': '1.3'
+        });
+        subSpoke.style.animationDelay = `${(j * 0.08).toFixed(2)}s`;
+        subCluster.appendChild(subSpoke);
+
+        const subGroup = el('g', {
+          class: 'center-flow-subnode-group', tabindex: '0', role: 'button',
+          'aria-label': subItem.full
+        });
+
+        const subNode = el('circle', {
+          cx: sx, cy: sy, r: nodeRadius - 1.5, fill: subColor, class: 'center-flow-subnode'
+        });
+        subGroup.appendChild(subNode);
+
+        let subAnchor = 'middle';
+        let slx = sx;
+        let sly = sy - (nodeRadius + 8);
+        if (subCos > 0.3) {
+          subAnchor = 'start';
+          slx = sx + 10;
+          sly = sy + 3;
+        } else if (subCos < -0.3) {
+          subAnchor = 'end';
+          slx = sx - 10;
+          sly = sy + 3;
+        } else {
+          sly = subSin > 0 ? sy + (nodeRadius + 11) : sy - (nodeRadius + 6);
+        }
+
+        const subLabel = el('text', {
+          x: slx, y: sly, 'text-anchor': subAnchor, 'font-size': String(subFontSize),
+          class: 'center-flow-sublabel'
+        });
+        subLabel.textContent = subItem.short;
+        subGroup.appendChild(subLabel);
+
+        subGroup.addEventListener('mouseenter', () => { if (caption) caption.textContent = subItem.full; });
+        subGroup.addEventListener('focus', () => { if (caption) caption.textContent = subItem.full; });
+        subGroup.addEventListener('mouseleave', () => { if (caption) caption.textContent = item.full; });
+        subGroup.addEventListener('blur', () => { if (caption) caption.textContent = item.full; });
+
+        subCluster.appendChild(subGroup);
+      });
+
+      g.appendChild(subCluster);
+    }
 
     function activate() {
       groups.forEach((grp, idx) => grp.classList.toggle('is-active', idx === i));
-      if (caption) caption.textContent = skill.full;
+      if (caption) caption.textContent = item.full;
     }
     function release() {
       groups.forEach(grp => grp.classList.remove('is-active'));
@@ -491,21 +609,32 @@ function initCenterFlow() {
   });
   svg.appendChild(hub);
 
-  const hubLine1 = el('text', {
-    x: cx, y: cy - 4, 'text-anchor': 'middle', 'font-size': '12',
-    'font-weight': '700', fill: 'var(--text)', 'font-family': 'var(--font-mono)'
+  const hubFontSize = config.hubFontSize || fontSize;
+  const hubLineGap = hubFontSize + 4;
+  config.hubLines.forEach((line, i) => {
+    const offset = (i - (config.hubLines.length - 1) / 2) * hubLineGap;
+    const hubText = el('text', {
+      x: cx, y: cy + offset + hubFontSize / 3, 'text-anchor': 'middle', 'font-size': String(hubFontSize),
+      'font-weight': '700', fill: 'var(--text)', 'font-family': 'var(--font-mono)'
+    });
+    hubText.textContent = line;
+    svg.appendChild(hubText);
   });
-  hubLine1.textContent = 'CORE';
-  const hubLine2 = el('text', {
-    x: cx, y: cy + 12, 'text-anchor': 'middle', 'font-size': '12',
-    'font-weight': '700', fill: 'var(--text)', 'font-family': 'var(--font-mono)'
-  });
-  hubLine2.textContent = 'SKILLS';
-  svg.appendChild(hubLine1);
-  svg.appendChild(hubLine2);
 
   svg.appendChild(nodesGroup);
   container.appendChild(svg);
+}
+
+function initCenterFlow() {
+  buildCenterFlow({
+    containerId: 'centerFlow',
+    captionId: 'centerFlowCaption',
+    items: CORE_SKILLS,
+    size: 600,
+    radius: 195,
+    hubRadius: 38,
+    hubLines: ['CORE', 'SKILLS']
+  });
 }
 
 // =========================================================
