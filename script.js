@@ -599,6 +599,44 @@ function initMetrics() {
 }
 
 // =========================================================
+// Tech-stack blast — original vanilla-JS/CSS burst effect inspired
+// by React Bits Pro's "Magic Transform" concept (a licensed
+// component this project has no access to and no React build to
+// install it into). Each experience entry has a document icon that
+// flies in on click and blasts into a scatter of tech-stack pills,
+// which settle into place as the "colorful result."
+// =========================================================
+function initTechBlast() {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll('.log-techstack').forEach(block => {
+    const trigger = block.querySelector('.techstack-trigger');
+    const label = block.querySelector('.techstack-trigger-label');
+    const pills = block.querySelectorAll('.techstack-pill');
+    if (!trigger || !pills.length) return;
+
+    pills.forEach((pill, i) => {
+      const angleSpread = (Math.random() - 0.5) * 160;
+      const dx = Math.round(Math.cos((angleSpread * Math.PI) / 180) * (60 + Math.random() * 50));
+      const dy = -Math.round(30 + Math.random() * 50);
+      const rot = Math.round((Math.random() - 0.5) * 70);
+      const delay = prefersReduced ? 0 : i * 0.05 + Math.random() * 0.06;
+      pill.style.setProperty('--dx', dx + 'px');
+      pill.style.setProperty('--dy', dy + 'px');
+      pill.style.setProperty('--rot', rot + 'deg');
+      pill.style.setProperty('--delay', delay.toFixed(2) + 's');
+    });
+
+    trigger.addEventListener('click', () => {
+      if (block.classList.contains('is-blasted')) return;
+      block.classList.add('is-blasted');
+      trigger.disabled = true;
+      if (label) label.textContent = 'Tech stack revealed';
+    });
+  });
+}
+
+// =========================================================
 // Ticket form — submits directly to Formspree (no email client)
 // =========================================================
 function initTicketForm() {
@@ -669,6 +707,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroParallax();
   initCardSpotlight();
   initMetrics();
+  initTechBlast();
   initCenterFlow();
   initTicketForm();
   setYear();
