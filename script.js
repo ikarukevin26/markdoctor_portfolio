@@ -47,12 +47,12 @@ const DRIFT_TILE_ANIM_CSS = `
 function driftTileSVG(accent, icon, decor) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 108" fill="none" stroke="${accent}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
     <style>${DRIFT_TILE_ANIM_CSS}</style>
-    <rect width="260" height="108" fill="#FAF9F4"/>
-    <rect width="260" height="22" fill="#EFEDE5"/>
-    <rect y="22" width="260" height="1" fill="#E1DED2"/>
-    <circle cx="14" cy="11" r="2.6" fill="#E1DED2" stroke="none"/>
-    <circle cx="24" cy="11" r="2.6" fill="#E1DED2" stroke="none"/>
-    <circle cx="34" cy="11" r="2.6" fill="#E1DED2" stroke="none"/>
+    <rect width="260" height="108" fill="#121210"/>
+    <rect width="260" height="22" fill="#242419"/>
+    <rect y="22" width="260" height="1" fill="#33332A"/>
+    <circle cx="14" cy="11" r="2.6" fill="#33332A" stroke="none"/>
+    <circle cx="24" cy="11" r="2.6" fill="#33332A" stroke="none"/>
+    <circle cx="34" cy="11" r="2.6" fill="#33332A" stroke="none"/>
     ${icon}
     ${decor}
   </svg>`;
@@ -60,9 +60,9 @@ function driftTileSVG(accent, icon, decor) {
 }
 
 function buildProjectTiles() {
-  const green = '#1F8F58';
-  const cyan = '#0E7A8C';
-  const amber = '#B9740E';
+  const green = '#3DDC84';
+  const cyan = '#4FD1E8';
+  const amber = '#F5A623';
   const rows = (x, w1, w2, w3) => `<g stroke-opacity="0.55"><path class="dash-1" d="M${x} 44h${w1}"/><path class="dash-2" d="M${x} 64h${w2}"/><path class="dash-3" d="M${x} 84h${w3}"/></g>`;
   const squares = (x, accent) => `<g fill="${accent}" fill-opacity="0.14">
     <rect class="scan-1" x="${x}" y="46" width="24" height="24" rx="4" stroke-opacity="0.5"/>
@@ -172,9 +172,9 @@ function initDriftWall() {
     pauseOnHover: false,
     lift: 46,
     fade: 0.6,
-    dim: 0.55,
+    dim: 0.85,
     grayscale: false,
-    overlayColor: '#131310'
+    overlayColor: '#0A0A08'
   };
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

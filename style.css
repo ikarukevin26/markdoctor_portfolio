@@ -2,24 +2,24 @@
    TOKENS
    ========================================================= */
 :root {
-  --bg:          #F5F4EF;
-  --bg-raised:   #EDEBE3;
-  --panel:       #FFFFFF;
-  --panel-bar:   #EFEDE5;
-  --border:      #E1DED2;
-  --border-soft: #EAE7DB;
+  --bg:          #121210;
+  --bg-raised:   #18180F;
+  --panel:       #1C1C16;
+  --panel-bar:   #242419;
+  --border:      #33332A;
+  --border-soft: #2A2A21;
 
-  --text:        #131310;
-  --text-muted:  #5C594E;
-  --text-dim:    #918D7E;
+  --text:        #F3F1E6;
+  --text-muted:  #A9A597;
+  --text-dim:    #726E5E;
 
-  --green:  #1F8F58;
-  --amber:  #B9740E;
-  --cyan:   #0E7A8C;
-  --red:    #C63D2F;
+  --green:  #3DDC84;
+  --amber:  #F5A623;
+  --cyan:   #4FD1E8;
+  --red:    #E85D5D;
 
-  --accent: #2A3AFF;
-  --accent-ink: #FFFFFF;
+  --accent: #8B93FF;
+  --accent-ink: #0E0E12;
 
   --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono:    'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
@@ -277,7 +277,7 @@ input, select, textarea { font-family: inherit; }
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: radial-gradient(240px circle at var(--x, 50%) var(--y, 50%), rgba(42, 58, 255, 0.08), transparent 70%);
+  background: radial-gradient(240px circle at var(--x, 50%) var(--y, 50%), rgba(139, 147, 255, 0.14), transparent 70%);
   opacity: 0;
   transition: opacity 0.35s ease;
   z-index: -1;
@@ -292,7 +292,7 @@ input, select, textarea { font-family: inherit; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(245,244,239,0.82);
+  background: rgba(18,18,16,0.82);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-soft);
 }
@@ -764,7 +764,7 @@ input, select, textarea { font-family: inherit; }
   position: absolute;
   inset: 0;
   background: var(--dw-overlay);
-  opacity: 0.42;
+  opacity: 0.2;
   pointer-events: none;
   transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -773,7 +773,7 @@ input, select, textarea { font-family: inherit; }
 .drift-wall__tile:focus-visible .drift-wall__inner {
   opacity: 1;
   transform: translateZ(var(--dw-lift));
-  box-shadow: 0 24px 60px -18px rgba(19, 19, 16, 0.35);
+  box-shadow: 0 24px 60px -18px rgba(0, 0, 0, 0.5);
 }
 
 .drift-wall__tile.is-active img,
@@ -788,7 +788,7 @@ input, select, textarea { font-family: inherit; }
 
 .drift-wall__tile:focus-visible .drift-wall__inner {
   box-shadow:
-    0 24px 60px -18px rgba(19, 19, 16, 0.35),
+    0 24px 60px -18px rgba(0, 0, 0, 0.5),
     0 0 0 2px var(--accent);
 }
 
@@ -821,7 +821,7 @@ input, select, textarea { font-family: inherit; }
   gap: 12px;
   transition: border-color 0.2s ease, transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s ease;
 }
-.project-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 20px 40px -24px rgba(20,20,15,0.25); }
+.project-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 20px 40px -24px rgba(0,0,0,0.5); }
 .project-visual {
   width: 100%;
   border-radius: var(--radius-sm);
