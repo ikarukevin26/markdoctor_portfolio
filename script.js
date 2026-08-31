@@ -372,10 +372,35 @@ const CORE_SKILLS = [
   { short: 'Tech Support', full: 'Technical Support & Troubleshooting' },
   { short: 'Help Desk', full: 'Tier 1–2 Help Desk Support' },
   { short: 'Incident Mgmt', full: 'Incident Management & Root Cause Analysis' },
-  { short: 'Cloud Support', full: 'Cloud Platform Support (Microsoft Azure, SaaS)' },
+  {
+    short: 'Cloud Support', full: 'Cloud Platform Support (Microsoft Azure, SaaS)',
+    nested: [
+      { short: 'Microsoft Azure', full: 'Microsoft Azure' },
+      { short: 'SaaS', full: 'SaaS Platforms' }
+    ]
+  },
   { short: 'Active Directory', full: 'Active Directory & User Access Management' },
-  { short: 'Networking', full: 'Network Troubleshooting (TCP/IP, DNS, DHCP, VLAN, NAT, Firewalls, QoS)' },
-  { short: 'VoIP & SIP', full: 'VoIP & SIP Systems (Call Routing, IVR, RTP, Softphones)' },
+  {
+    short: 'Networking', full: 'Network Troubleshooting (TCP/IP, DNS, DHCP, VLAN, NAT, Firewalls, QoS)',
+    nested: [
+      { short: 'TCP/IP', full: 'TCP/IP' },
+      { short: 'DNS', full: 'DNS' },
+      { short: 'DHCP', full: 'DHCP' },
+      { short: 'VLAN', full: 'VLAN' },
+      { short: 'NAT', full: 'NAT' },
+      { short: 'Firewalls', full: 'Firewalls' },
+      { short: 'QoS', full: 'QoS' }
+    ]
+  },
+  {
+    short: 'VoIP & SIP', full: 'VoIP & SIP Systems (Call Routing, IVR, RTP, Softphones)',
+    nested: [
+      { short: 'Call Routing', full: 'Call Routing' },
+      { short: 'IVR', full: 'IVR' },
+      { short: 'RTP', full: 'RTP' },
+      { short: 'Softphones', full: 'Softphones' }
+    ]
+  },
   {
     short: 'Databases', full: 'Database Troubleshooting (MySQL, Microsoft SQL Server, PostgreSQL, NoSQL)',
     nested: [
@@ -388,9 +413,23 @@ const CORE_SKILLS = [
   },
   { short: 'Ticketing & Docs', full: 'Ticketing Systems & Technical Documentation' },
   { short: 'Remote Support', full: 'Remote Support Tools' },
-  { short: 'Software Dev', full: 'Software Development (C#, JavaScript, HTML/CSS, Visual Studio)' },
+  {
+    short: 'Software Dev', full: 'Software Development (C#, JavaScript, HTML/CSS, Visual Studio)',
+    nested: [
+      { short: 'C#', full: 'C#' },
+      { short: 'JavaScript', full: 'JavaScript' },
+      { short: 'HTML/CSS', full: 'HTML/CSS' },
+      { short: 'Visual Studio', full: 'Visual Studio' }
+    ]
+  },
   { short: 'CI/CD', full: 'CI/CD' },
-  { short: 'AI Automation', full: 'AI Workflow Automation (n8n Cloud, Claude)' },
+  {
+    short: 'AI Automation', full: 'AI Workflow Automation (n8n Cloud, Claude)',
+    nested: [
+      { short: 'n8n Cloud', full: 'n8n Cloud' },
+      { short: 'Claude', full: 'Claude' }
+    ]
+  },
   { short: 'Leadership', full: 'Team Leadership & Training' }
 ];
 
@@ -482,9 +521,10 @@ function buildCenterFlow(config) {
       const subCluster = el('g', { class: 'center-flow-subcluster' });
       subCluster.style.transformOrigin = `${nx}px ${ny}px`;
 
-      const subRadius = nodeRadius + 46;
-      const spreadRad = (110 * Math.PI) / 180;
-      const subFontSize = Math.max(9, fontSize - 2);
+      const subRadius = nodeRadius + 58;
+      const spreadDeg = item.nested.length > 5 ? 85 : 100;
+      const spreadRad = (spreadDeg * Math.PI) / 180;
+      const subFontSize = Math.max(9, fontSize - (item.nested.length > 5 ? 3 : 2));
 
       item.nested.forEach((subItem, j) => {
         const subAngle = angle + (item.nested.length === 1 ? 0 : spreadRad * (j / (item.nested.length - 1) - 0.5));
