@@ -1,4 +1,317 @@
 // =========================================================
+// Drift wall — vanilla-JS port of React Bits' DriftWall
+// (github.com/DavidHDev/react-bits), rebuilt without React
+// so it drops into this static site with no build step.
+// =========================================================
+function driftTileSVG(accent, icon, decor) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 108" fill="none" stroke="${accent}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <rect width="260" height="108" fill="#FAF9F4"/>
+    <rect width="260" height="22" fill="#EFEDE5"/>
+    <rect y="22" width="260" height="1" fill="#E1DED2"/>
+    <circle cx="14" cy="11" r="2.6" fill="#E1DED2" stroke="none"/>
+    <circle cx="24" cy="11" r="2.6" fill="#E1DED2" stroke="none"/>
+    <circle cx="34" cy="11" r="2.6" fill="#E1DED2" stroke="none"/>
+    ${icon}
+    ${decor}
+  </svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
+function buildProjectTiles() {
+  const green = '#1F8F58';
+  const cyan = '#0E7A8C';
+  const amber = '#B9740E';
+  const rows = (x, w1, w2, w3) => `<g stroke-opacity="0.55"><path d="M${x} 44h${w1}"/><path d="M${x} 64h${w2}"/><path d="M${x} 84h${w3}"/></g>`;
+  const squares = (x, accent) => `<g fill="${accent}" fill-opacity="0.14" stroke-opacity="0.5">
+    <rect x="${x}" y="46" width="24" height="24" rx="4"/>
+    <rect x="${x + 34}" y="46" width="24" height="24" rx="4"/>
+    <rect x="${x + 68}" y="46" width="24" height="24" rx="4"/>
+  </g>`;
+
+  return [
+    {
+      title: 'Maluho Timesheet',
+      href: 'https://github.com/ikarukevin26/Maluho-Timesheet',
+      image: driftTileSVG(green, `<g transform="translate(4,28) scale(1.25)"><circle cx="20" cy="21" r="12"/><path d="M20 14v7l5 3"/><path d="M15 4h10M20 4v4"/></g>`, rows(112, 128, 94, 60))
+    },
+    {
+      title: 'FlappyBird Quiz',
+      href: 'https://github.com/ikarukevin26/FlappyBrid_Quiz',
+      image: driftTileSVG(cyan, `<g transform="translate(4,28) scale(1.25)"><ellipse cx="18" cy="20" rx="8" ry="6"/><path d="M26 18l6-2-4 5"/><path d="M12 18c-2-2-2-5 0-6"/><circle cx="22" cy="17" r="1.1" fill="${cyan}" stroke="none"/></g>`, `<g stroke-opacity="0.6"><path d="M130 30v26M130 68v18"/><path d="M168 30v14M168 56v30"/><path d="M206 30v40M206 82v6"/></g>`)
+    },
+    {
+      title: 'Snake Quiz',
+      href: 'https://github.com/ikarukevin26/Snake_Quiz',
+      image: driftTileSVG(amber, `<g transform="translate(4,28) scale(1.25)"><path d="M8 14c0 4 4 4 4 8s4 4 4 8s4 4 8 4"/><circle cx="28" cy="10" r="2.3" fill="${amber}" stroke="none"/></g>`, `<g fill="${amber}" stroke="none"><circle cx="112" cy="50" r="3"/><circle cx="132" cy="50" r="3"/><circle cx="152" cy="50" r="3"/><circle cx="112" cy="70" r="3"/><circle cx="132" cy="70" r="3"/><circle cx="152" cy="70" r="3"/></g>`)
+    },
+    {
+      title: 'Maluho Sales',
+      href: 'https://github.com/ikarukevin26/Maluho-Sales',
+      image: driftTileSVG(green, `<g transform="translate(4,28) scale(1.25)"><path d="M8 32V16"/><path d="M18 32V10"/><path d="M28 32V21"/><path d="M6 32h28"/><path d="M23 12l6-5 3 3"/></g>`, rows(116, 124, 90, 56))
+    },
+    {
+      title: 'The Real Maluho',
+      href: 'https://github.com/ikarukevin26/The-Real-Maluho',
+      image: driftTileSVG(cyan, `<g transform="translate(4,28) scale(1.25)"><path d="M20 4l10 8-3 12H13L10 12z"/><path d="M13 24l7 12 7-12"/></g>`, squares(110, cyan))
+    },
+    {
+      title: 'Maluho POS',
+      href: 'https://github.com/ikarukevin26/Maluho-POS',
+      image: driftTileSVG(amber, `<g transform="translate(4,28) scale(1.25)"><rect x="9" y="9" width="22" height="16" rx="2"/><path d="M9 15h22"/><path d="M14 30h12M20 25v5"/></g>`, rows(118, 112, 86, 60))
+    },
+    {
+      title: 'Maluho Authenticator',
+      href: 'https://github.com/ikarukevin26/MaluhoAuthenticator',
+      image: driftTileSVG(green, `<g transform="translate(4,28) scale(1.25)"><path d="M20 5l12 5v9c0 8-5 13-12 16-7-3-12-8-12-16v-9z"/><path d="M15 20l4 4 7-8"/></g>`, rows(114, 118, 84, 50))
+    },
+    {
+      title: 'Fingerprint Helper',
+      href: 'https://github.com/ikarukevin26/FingerprintHelper',
+      image: driftTileSVG(cyan, `<g transform="translate(4,28) scale(1.25)"><path d="M20 10a10 10 0 0 1 10 10v3"/><path d="M20 14a6 6 0 0 1 6 6v4"/><path d="M20 18a2 2 0 0 1 2 2v6"/><path d="M14 16a10 10 0 0 0-1 4v4"/><path d="M17 14a10 10 0 0 0-4 8v3"/></g>`, squares(112, cyan))
+    },
+    {
+      title: 'Inventory',
+      href: 'https://github.com/ikarukevin26/Inventory',
+      image: driftTileSVG(amber, `<g transform="translate(4,28) scale(1.25)"><path d="M20 5l14 7-14 7-14-7z"/><path d="M6 12v16l14 7 14-7V12"/><path d="M20 19v16"/></g>`, rows(116, 120, 88, 56))
+    },
+    {
+      title: 'Azure Customer View',
+      href: 'https://github.com/ikarukevin26/azure-customer-view',
+      image: driftTileSVG(green, `<g transform="translate(4,28) scale(1.25)"><path d="M13 26a6 6 0 0 1 0-12 8 8 0 0 1 15.5-2A6.5 6.5 0 0 1 27 26z"/><path d="M14 31h4"/><path d="M20 31h6"/></g>`, `<g stroke-opacity="0.9"><path d="M120 90V62"/><path d="M150 90V44"/><path d="M180 90V70"/><path d="M210 90V54"/><path d="M112 90h108" stroke-opacity="0.4"/></g>`)
+    },
+    {
+      title: 'Maluho Luxe Shoppe',
+      href: 'https://github.com/ikarukevin26/maluho-luxe-shoppe-apple',
+      image: driftTileSVG(cyan, `<g transform="translate(4,28) scale(1.25)"><path d="M11 14h18l-2 18H13z"/><path d="M15 14a5 5 0 0 1 10 0"/></g>`, squares(112, cyan))
+    },
+    {
+      title: 'Maluho Web',
+      href: 'https://github.com/ikarukevin26/Maluho-Web',
+      image: driftTileSVG(amber, `<g transform="translate(4,28) scale(1.25)"><circle cx="20" cy="20" r="14"/><path d="M6 20h28M20 6c4 4 4 24 0 28M20 6c-4 4-4 24 0 28" stroke-opacity="0.7"/></g>`, rows(116, 124, 94, 70))
+    },
+    {
+      title: 'Neo4j Sample',
+      href: 'https://github.com/ikarukevin26/sample_neo4j',
+      image: driftTileSVG(green, `<g transform="translate(4,28) scale(1.25)"><circle cx="10" cy="12" r="3.2"/><circle cx="30" cy="12" r="3.2"/><circle cx="20" cy="30" r="3.2"/><path d="M13 12h14M12 15l6 12M28 15l-6 12"/></g>`, `<g><circle cx="150" cy="46" r="4"/><circle cx="200" cy="42" r="4"/><circle cx="175" cy="86" r="4"/><path d="M154 47h42M152 50l21 34M197 45l-20 38" stroke-opacity="0.5"/></g>`)
+    },
+    {
+      title: 'The Real Maluho Automation',
+      href: 'https://github.com/ikarukevin26/TheRealMaluho-Automation',
+      image: driftTileSVG(cyan, `<g transform="translate(4,28) scale(1.15)"><path d="M9 12h22a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H18l-7 5v-5h-2a2 2 0 0 1-2-2V14a2 2 0 0 1 2-2z"/><path d="M21 16l-4 6h4l-1 5 5-6h-4z" fill="${cyan}" stroke="none"/></g>`, `<path d="M118 62h20" stroke-opacity="0.6"/><g><rect x="140" y="48" width="26" height="26" rx="4"/><path d="M144 56h18M144 62h18M144 68h12" stroke-opacity="0.6"/></g><path d="M168 62h18" stroke-opacity="0.6"/><g><path d="M188 50h30v22h-30z"/><path d="M188 52l15 11 15-11"/></g>`)
+    }
+  ];
+}
+
+function driftColumnFactor(index, variance) {
+  const pseudo = ((index * 0.6180339887 + 0.35) % 1) * 2 - 1;
+  return 1 + variance * pseudo;
+}
+
+function initDriftWall() {
+  const container = document.getElementById('driftWall');
+  if (!container) return;
+
+  const items = buildProjectTiles();
+  const opts = {
+    columns: 5,
+    tileWidth: 180,
+    tileHeight: 118,
+    gap: 16,
+    radius: 12,
+    tilt: 14,
+    turn: -12,
+    roll: 0,
+    perspective: 1100,
+    depth: 100,
+    speed: 34,
+    direction: 'up',
+    variance: 0.4,
+    parallax: 0.5,
+    pauseOnHover: false,
+    lift: 46,
+    fade: 0.6,
+    dim: 0.55,
+    grayscale: false,
+    overlayColor: '#131310'
+  };
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  container.style.setProperty('--dw-tile-w', opts.tileWidth + 'px');
+  container.style.setProperty('--dw-tile-h', opts.tileHeight + 'px');
+  container.style.setProperty('--dw-gap', opts.gap + 'px');
+  container.style.setProperty('--dw-radius', opts.radius + 'px');
+  container.style.setProperty('--dw-perspective', opts.perspective + 'px');
+  container.style.setProperty('--dw-lift', opts.lift + 'px');
+  container.style.setProperty('--dw-dim', opts.dim);
+  container.style.setProperty('--dw-gray', opts.grayscale ? 1 : 0);
+  container.style.setProperty('--dw-overlay', opts.overlayColor);
+  container.style.setProperty('--dw-edge', Math.max(0, (1 - opts.fade) * 100) + '%');
+  if (prefersReduced) container.classList.add('drift-wall--reduced');
+
+  const columnItems = Array.from({ length: opts.columns }, () => []);
+  items.forEach((item, i) => columnItems[i % opts.columns].push(item));
+  columnItems.forEach((col, i) => { if (!col.length) columnItems[i] = items.slice(0, 1); });
+
+  const plane = document.createElement('div');
+  plane.className = 'drift-wall__plane';
+  container.appendChild(plane);
+
+  const unit = opts.tileHeight + opts.gap;
+  const containerHeight = container.clientHeight || 480;
+
+  const tracks = [];
+  const columnMeta = [];
+  const offsets = [];
+  const velocities = [];
+
+  let activeEl = null;
+  let hoveredCol = -1;
+
+  function activate(el, colIndex) {
+    if (activeEl === el) return;
+    if (activeEl) activeEl.classList.remove('is-active');
+    activeEl = el;
+    el.classList.add('is-active');
+    hoveredCol = colIndex;
+  }
+  function release() {
+    if (activeEl) activeEl.classList.remove('is-active');
+    activeEl = null;
+    hoveredCol = -1;
+  }
+
+  function buildTile(item, id, colIndex) {
+    const el = document.createElement(item.href ? 'a' : 'div');
+    el.className = 'drift-wall__tile';
+    el.dataset.tileId = id;
+    el.dataset.col = String(colIndex);
+    if (item.href) {
+      el.href = item.href;
+      el.target = '_blank';
+      el.rel = 'noreferrer noopener';
+    } else {
+      el.tabIndex = 0;
+      el.setAttribute('role', 'button');
+      el.setAttribute('aria-label', item.title || 'tile');
+    }
+
+    const inner = document.createElement('span');
+    inner.className = 'drift-wall__inner';
+    const img = document.createElement('img');
+    img.src = item.image;
+    img.alt = item.title || '';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.draggable = false;
+    const overlay = document.createElement('span');
+    overlay.className = 'drift-wall__overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+    inner.appendChild(img);
+    inner.appendChild(overlay);
+    el.appendChild(inner);
+
+    el.addEventListener('mouseenter', () => activate(el, colIndex));
+    el.addEventListener('mouseleave', release);
+    el.addEventListener('focus', () => activate(el, colIndex));
+    el.addEventListener('blur', release);
+    return el;
+  }
+
+  columnItems.forEach((col, c) => {
+    const copyHeight = Math.max(unit, col.length * unit);
+    const copies = Math.max(2, Math.ceil((containerHeight * 1.6) / copyHeight) + 1);
+    columnMeta.push({ copyHeight, copies });
+    offsets.push(copyHeight * ((c * 0.37) % 1));
+    velocities.push(0);
+
+    const colEl = document.createElement('div');
+    colEl.className = 'drift-wall__col';
+    const track = document.createElement('div');
+    track.className = 'drift-wall__track';
+
+    for (let copyIndex = 0; copyIndex < copies; copyIndex++) {
+      col.forEach((item, itemIndex) => {
+        track.appendChild(buildTile(item, `${c}-${copyIndex}-${itemIndex}`, c));
+      });
+    }
+
+    colEl.appendChild(track);
+    plane.appendChild(colEl);
+    tracks.push(track);
+  });
+
+  const dirSign = opts.direction === 'up' ? 1 : -1;
+  const baseVelocities = columnItems.map((_, c) => {
+    const altSign = c % 2 === 0 ? 1 : -1;
+    return opts.speed * driftColumnFactor(c, opts.variance) * dirSign * altSign;
+  });
+
+  function applyPlaneTransform(px, py) {
+    plane.style.transform =
+      `translate(-50%, -50%) scale(1.18) ` +
+      `rotateX(${opts.tilt + py}deg) rotateY(${opts.turn + px}deg) rotateZ(${opts.roll}deg) ` +
+      `translateZ(${-opts.depth}px)`;
+  }
+
+  let pointer = { x: 0, y: 0 };
+  const pointerDamped = { x: 0, y: 0 };
+  let wallHovered = false;
+
+  container.addEventListener('pointermove', (e) => {
+    if (opts.parallax <= 0 || prefersReduced) return;
+    const rect = container.getBoundingClientRect();
+    pointer = {
+      x: (e.clientX - rect.left) / rect.width - 0.5,
+      y: (e.clientY - rect.top) / rect.height - 0.5
+    };
+  });
+  container.addEventListener('pointerenter', () => { wallHovered = true; });
+  container.addEventListener('pointerleave', () => {
+    wallHovered = false;
+    pointer = { x: 0, y: 0 };
+    release();
+  });
+
+  let lastTs = null;
+  function animate(ts) {
+    if (lastTs === null) lastTs = ts;
+    const dt = Math.min(0.05, Math.max(0, ts - lastTs) / 1000);
+    lastTs = ts;
+
+    const maxTilt = opts.parallax * 8;
+    const targetX = pointer.x * maxTilt;
+    const targetY = -pointer.y * maxTilt;
+    const damp = 1 - Math.exp(-dt / 0.12);
+    pointerDamped.x += (targetX - pointerDamped.x) * damp;
+    pointerDamped.y += (targetY - pointerDamped.y) * damp;
+    applyPlaneTransform(pointerDamped.x, pointerDamped.y);
+
+    if (!prefersReduced) {
+      tracks.forEach((track, c) => {
+        const meta = columnMeta[c];
+        const paused = wallHovered && opts.pauseOnHover;
+        const factor = (paused || hoveredCol === c) ? 0 : 1;
+        const target = baseVelocities[c] * factor;
+        const ease = 1 - Math.exp(-dt / (target === 0 ? 0.16 : 0.28));
+        velocities[c] += (target - velocities[c]) * ease;
+        let next = (offsets[c] || 0) + velocities[c] * dt;
+        next = ((next % meta.copyHeight) + meta.copyHeight) % meta.copyHeight;
+        offsets[c] = next;
+        track.style.transform = `translate3d(0, ${-next}px, 0)`;
+      });
+    } else {
+      tracks.forEach((track, c) => {
+        track.style.transform = `translate3d(0, ${-(offsets[c] || 0)}px, 0)`;
+      });
+    }
+
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+}
+
+// =========================================================
 // Mobile nav toggle
 // =========================================================
 function initNavToggle() {
@@ -308,6 +621,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroParallax();
   initCardSpotlight();
   initMetrics();
+  initDriftWall();
   initTicketForm();
   setYear();
 });
