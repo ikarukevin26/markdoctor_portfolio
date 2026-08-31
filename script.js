@@ -362,6 +362,153 @@ function initDriftWall() {
 }
 
 // =========================================================
+// Center flow — original vanilla-JS radial diagram inspired by
+// React Bits Pro's "Center Flow" concept (a licensed component this
+// project has no access to and no React build to install it into).
+// Renders one node per core skill, each connected to a pulsing hub
+// by a spoke with a continuously flowing dash animation.
+// =========================================================
+const CORE_SKILLS = [
+  { short: 'Tech Support', full: 'Technical Support & Troubleshooting' },
+  { short: 'Help Desk', full: 'Tier 1–2 Help Desk Support' },
+  { short: 'Incident Mgmt', full: 'Incident Management & Root Cause Analysis' },
+  { short: 'Cloud Support', full: 'Cloud Platform Support (Microsoft Azure, SaaS)' },
+  { short: 'Active Directory', full: 'Active Directory & User Access Management' },
+  { short: 'Networking', full: 'Network Troubleshooting (TCP/IP, DNS, DHCP, VLAN, NAT, Firewalls, QoS)' },
+  { short: 'VoIP & SIP', full: 'VoIP & SIP Systems (Call Routing, IVR, RTP, Softphones)' },
+  { short: 'Databases', full: 'Database Troubleshooting (MySQL, Microsoft SQL Server, PostgreSQL, NoSQL)' },
+  { short: 'Ticketing & Docs', full: 'Ticketing Systems & Technical Documentation' },
+  { short: 'Remote Support', full: 'Remote Support Tools' },
+  { short: 'Software Dev', full: 'Software Development (C#, JavaScript, HTML/CSS, Visual Studio)' },
+  { short: 'CI/CD', full: 'CI/CD' },
+  { short: 'AI Automation', full: 'AI Workflow Automation (n8n Cloud, Claude)' },
+  { short: 'Leadership', full: 'Team Leadership & Training' }
+];
+
+function initCenterFlow() {
+  const container = document.getElementById('centerFlow');
+  const caption = document.getElementById('centerFlowCaption');
+  if (!container) return;
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const size = 600;
+  const cx = size / 2;
+  const cy = size / 2;
+  const radius = 195;
+  const hubRadius = 38;
+  const colors = ['var(--green)', 'var(--cyan)', 'var(--amber)', 'var(--accent)'];
+  const defaultCaption = caption ? caption.textContent : '';
+
+  function el(tag, attrs) {
+    const node = document.createElementNS(NS, tag);
+    Object.keys(attrs).forEach(key => node.setAttribute(key, attrs[key]));
+    return node;
+  }
+
+  const svg = el('svg', { viewBox: `0 0 ${size} ${size}` });
+
+  const hubGlow = el('circle', {
+    cx, cy, r: hubRadius + 16,
+    fill: 'var(--accent)', 'fill-opacity': '0.16',
+    class: 'center-flow-hub-glow'
+  });
+  svg.appendChild(hubGlow);
+
+  const spokesGroup = el('g', {});
+  const nodesGroup = el('g', {});
+
+  const groups = [];
+
+  CORE_SKILLS.forEach((skill, i) => {
+    const angle = (Math.PI * 2 * i) / CORE_SKILLS.length - Math.PI / 2;
+    const nx = cx + radius * Math.cos(angle);
+    const ny = cy + radius * Math.sin(angle);
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    const color = colors[i % colors.length];
+
+    const spoke = el('line', {
+      x1: cx, y1: cy, x2: nx, y2: ny,
+      class: 'center-flow-spoke', stroke: color, 'stroke-width': '1.6'
+    });
+    spoke.style.animationDelay = `${(i * 0.09).toFixed(2)}s`;
+    spokesGroup.appendChild(spoke);
+
+    const g = el('g', {
+      class: 'center-flow-node-group', tabindex: '0', role: 'button',
+      'aria-label': skill.full
+    });
+
+    const node = el('circle', {
+      cx: nx, cy: ny, r: 6, fill: color, class: 'center-flow-node'
+    });
+    g.appendChild(node);
+
+    let anchor = 'middle';
+    let lx = nx;
+    let ly = ny - 16;
+    if (cos > 0.3) {
+      anchor = 'start';
+      lx = nx + 13;
+      ly = ny + 4;
+    } else if (cos < -0.3) {
+      anchor = 'end';
+      lx = nx - 13;
+      ly = ny + 4;
+    } else {
+      ly = sin > 0 ? ny + 20 : ny - 13;
+    }
+
+    const label = el('text', {
+      x: lx, y: ly, 'text-anchor': anchor, 'font-size': '12',
+      class: 'center-flow-label'
+    });
+    label.textContent = skill.short;
+    g.appendChild(label);
+
+    function activate() {
+      groups.forEach((grp, idx) => grp.classList.toggle('is-active', idx === i));
+      if (caption) caption.textContent = skill.full;
+    }
+    function release() {
+      groups.forEach(grp => grp.classList.remove('is-active'));
+      if (caption) caption.textContent = defaultCaption;
+    }
+
+    g.addEventListener('mouseenter', activate);
+    g.addEventListener('focus', activate);
+    g.addEventListener('mouseleave', release);
+    g.addEventListener('blur', release);
+
+    groups.push(g);
+    nodesGroup.appendChild(g);
+  });
+
+  svg.appendChild(spokesGroup);
+
+  const hub = el('circle', {
+    cx, cy, r: hubRadius, fill: 'var(--panel)', stroke: 'var(--accent)', 'stroke-width': '1.6'
+  });
+  svg.appendChild(hub);
+
+  const hubLine1 = el('text', {
+    x: cx, y: cy - 4, 'text-anchor': 'middle', 'font-size': '12',
+    'font-weight': '700', fill: 'var(--text)', 'font-family': 'var(--font-mono)'
+  });
+  hubLine1.textContent = 'CORE';
+  const hubLine2 = el('text', {
+    x: cx, y: cy + 12, 'text-anchor': 'middle', 'font-size': '12',
+    'font-weight': '700', fill: 'var(--text)', 'font-family': 'var(--font-mono)'
+  });
+  hubLine2.textContent = 'SKILLS';
+  svg.appendChild(hubLine1);
+  svg.appendChild(hubLine2);
+
+  svg.appendChild(nodesGroup);
+  container.appendChild(svg);
+}
+
+// =========================================================
 // Mobile nav toggle
 // =========================================================
 function initNavToggle() {
@@ -672,6 +819,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCardSpotlight();
   initMetrics();
   initDriftWall();
+  initCenterFlow();
   initTicketForm();
   setYear();
 });

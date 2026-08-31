@@ -563,6 +563,83 @@ input, select, textarea { font-family: inherit; }
 .skill-desc-spaced { margin-top: 18px; }
 
 /* =========================================================
+   CENTER FLOW (vanilla-JS original, inspired by React Bits Pro's
+   "Center Flow" pattern — no license/React available, so this is a
+   from-scratch reimplementation of the general concept, not a port
+   of any Pro source)
+   ========================================================= */
+.center-flow-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin: 4px 0 20px;
+}
+.center-flow {
+  width: 100%;
+  max-width: 460px;
+  aspect-ratio: 1 / 1;
+}
+.center-flow svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.center-flow-hub-glow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cf-pulse 2.6s ease-in-out infinite;
+}
+@keyframes cf-pulse { 0%, 100% { opacity: 0.45; transform: scale(1); } 50% { opacity: 0.85; transform: scale(1.1); } }
+.center-flow-spoke {
+  stroke-dasharray: 4 11;
+  opacity: 0.5;
+  animation: cf-flow 1.7s linear infinite;
+  transition: opacity 0.25s ease, stroke-width 0.25s ease;
+}
+@keyframes cf-flow { to { stroke-dashoffset: -150; } }
+.center-flow-node-group { cursor: pointer; outline: none; }
+.center-flow-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.25s cubic-bezier(0.16,1,0.3,1);
+}
+.center-flow-label {
+  font-family: var(--font-mono);
+  fill: var(--text-dim);
+  transition: fill 0.25s ease;
+  user-select: none;
+}
+.center-flow-node-group:hover .center-flow-spoke,
+.center-flow-node-group.is-active .center-flow-spoke,
+.center-flow-node-group:focus-visible .center-flow-spoke {
+  opacity: 1;
+  stroke-width: 2.4;
+}
+.center-flow-node-group:hover .center-flow-node,
+.center-flow-node-group.is-active .center-flow-node,
+.center-flow-node-group:focus-visible .center-flow-node {
+  transform: scale(1.4);
+}
+.center-flow-node-group:hover .center-flow-label,
+.center-flow-node-group.is-active .center-flow-label,
+.center-flow-node-group:focus-visible .center-flow-label {
+  fill: var(--text);
+}
+.center-flow-caption {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  text-align: center;
+  min-height: 20px;
+  max-width: 46ch;
+}
+.center-flow-credit {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-dim);
+  text-align: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .center-flow-hub-glow, .center-flow-spoke { animation: none !important; }
+}
+
+/* =========================================================
    METRICS
    ========================================================= */
 .metrics-grid {
