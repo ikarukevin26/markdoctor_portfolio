@@ -54,6 +54,9 @@ body {
 @media (hover: none), (pointer: coarse) {
   body { cursor: auto; }
 }
+@media (prefers-reduced-motion: reduce) {
+  body { cursor: auto; }
+}
 
 img { max-width: 100%; display: block; }
 
@@ -71,39 +74,22 @@ input, select, textarea { font-family: inherit; }
 }
 
 /* =========================================================
-   CUSTOM CURSOR
+   SMOOTH CURSOR (original vanilla-JS canvas cursor with spring
+   physics, inspired by React Bits Pro's "Smooth Cursor" concept —
+   no license/React available, so this is a from-scratch
+   reimplementation of the idea, not a port of any Pro source)
    ========================================================= */
-.cursor-dot, .cursor-ring {
+.smooth-cursor-canvas {
   position: fixed;
-  top: 0;
-  left: 0;
-  border-radius: 50%;
+  inset: 0;
   pointer-events: none;
   z-index: 2000;
-  transform: translate(-50%, -50%);
-}
-.cursor-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--text);
-  transition: opacity 0.2s ease;
-}
-.cursor-ring {
-  width: 34px;
-  height: 34px;
-  border: 1px solid var(--text);
-  opacity: 0.5;
-  transition: width 0.25s ease, height 0.25s ease, opacity 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-}
-.cursor-ring.is-active {
-  width: 64px;
-  height: 64px;
-  background: var(--accent);
-  border-color: var(--accent);
-  opacity: 0.14;
 }
 @media (hover: none), (pointer: coarse) {
-  .cursor-dot, .cursor-ring { display: none; }
+  .smooth-cursor-canvas { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .smooth-cursor-canvas { display: none; }
 }
 
 /* =========================================================
